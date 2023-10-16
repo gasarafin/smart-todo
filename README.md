@@ -13,7 +13,9 @@ The `Smart To-Do List` *(working name)* is a multi-faceted  tasks list that help
    - [Stretch Functionality](#stretch-functionality)
 
 2. [Learning Goal](#learning-goal)
-3. [Plan (Kanban Board)](#plan-kanban-board)
+3. [Plan](#plan)
+   - [Agile Framework](#agile-framework)
+   - [Kanban Tasks](#kanban-tasks)
 4. [User Story](#user-story)
 
 ***
@@ -47,7 +49,14 @@ The `Smart To-Do List` *(working name)* is a multi-faceted  tasks list that help
 - (Stretch) Implement NLP to better understand nature of user tasks.
 
 ***
-## Plan (Kanban Board)
+## Plan
+
+### Agile Framework
+I am running a modified version of `Scrum for One with Kanban` for this project. All tasks are listed in the main backlog in priority order and with time estimates (except for stretch goals, which are in the stretch backlog). Sprints are only 1 day long (due to the short length of this project). Sprint planning happens daily first thing in the morning; approximatly 8 hours of tasks are moved into the sprint backlog from the top of the main backlog. That sprint is now set for the day; should a new task need to be added, it will be placed in the main backlog based on urgency. Each day ends with a documentation wrap-up, which is used to organize the kanban board and leave notes for future development days.
+
+*(I know this strays from traditional Scrum and Kanban principles, but I have used and refined this modified version for several years now; it helps me organize small-scale and short term projects.)*
+
+### Kanban Tasks
 
 ![Project Kanban Tasks](kanban_tasks.jpg)
 
