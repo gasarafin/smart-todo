@@ -1,7 +1,7 @@
 # Dev10 Capstone</br>*`Smart To-Do List`*
 
 ## Introduction
-The `Smart To-Do List` *(working name)* is a multi-fauceted tasks list that helps a user complete their tasks by helping to prioritize tasks whose completeion may be affected by external forces. The application will do this by providing weather and location information for relevant tasks.
+The `Smart To-Do List` *(working name)* is a multi-faceted  tasks list that helps a user complete their tasks by helping to prioritize tasks whose completion  may be affected by external forces. The application will do this by providing weather and location information for relevant tasks.
 
 ***
 
@@ -9,11 +9,11 @@ The `Smart To-Do List` *(working name)* is a multi-fauceted tasks list that help
 1. [In-Depth Functionality](#in-depth-functionality)
 
    - [Main Functionality](#main-functionality)
-   
+
    - [Stretch Functionality](#stretch-functionality)
 
 2. [Learning Goal](#learning-goal)
-3. [Plan (Kanban Board)](#plan-kanban-board))
+3. [Plan (Kanban Board)](#plan-kanban-board)
 4. [User Story](#user-story)
 
 ***
@@ -32,7 +32,7 @@ The `Smart To-Do List` *(working name)* is a multi-fauceted tasks list that help
 - List weather for tasks listed as outdoors
 - List store/location hours for tasks at external location
   - List estimated commute time from home to second location
-- Priortize tasks based on due date, potential weather, and location closing times.
+- Prioritize tasks based on due date, potential weather, and location closing times.
 
 ### Stretch Functionality
 - Replace 'Is it an outdoor task?' with NLP to automatically infer if task is an outdoor task.
@@ -49,7 +49,7 @@ The `Smart To-Do List` *(working name)* is a multi-fauceted tasks list that help
 ***
 ## Plan (Kanban Board)
 
-### _`WIP - This will be availible later today`_
+### _`WIP - This will be available later today`_
 
 ***
 
@@ -72,7 +72,7 @@ The `Smart To-Do List` *(working name)* is a multi-fauceted tasks list that help
 | Go Grocery Shopping | | Lidl | No | Need Eggs | 
 | Schedule Apt at DMV | 8/9/2020 | DMV | No | Renew License |
 
-### 3. On homescreen, user sees tasks with pertaint external info.
+### 3. On home-screen, user sees tasks with pertinent external info.
   
 
 | Task | Due Date | Task Information | User Details |
