@@ -49,7 +49,7 @@ The `Smart To-Do List` *(working name)* is a multi-faceted  tasks list that help
 ***
 ## Plan (Kanban Board)
 
-### _`WIP - This will be available later today`_
+![Project Kanban Tasks](kanban_tasks.jpg)
 
 ***
 
