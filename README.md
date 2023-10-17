@@ -13,9 +13,13 @@ The `Smart To-Do List` *(working name)* is a multi-faceted  tasks list that help
    - [Stretch Functionality](#stretch-functionality)
 
 2. [Learning Goal](#learning-goal)
+
 3. [Plan](#plan)
+
    - [Agile Framework](#agile-framework)
+
    - [Kanban Tasks](#kanban-tasks)
+
 4. [User Story](#user-story)
 
 ***
