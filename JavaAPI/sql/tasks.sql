@@ -10,7 +10,7 @@ create table location (
     location_id int primary key auto_increment,
     location_name varchar(50) not null,
     location_address_1 varchar(50) not null,
-    location_address_2 varchar(50) not null,
+    location_address_2 varchar(50),
     location_city varchar(20) not null,
     location_state varchar(5) not null,		-- separate out state into a separate table
     location_postal varchar(20) not null
@@ -18,10 +18,11 @@ create table location (
 
 create table task (
     task_id int primary key auto_increment,
-    task_name varchar(50) not null,
+    task_name varchar(20) not null,
     due_date datetime,
     is_outdoors bit not null default(1),
     location_id int,
+    google_places_id varchar(50),			-- maybe replace entire location table with this
     task_details text,
 	constraint fk_location_id
 		foreign key (location_id)

@@ -1,5 +1,5 @@
 package capstone.smarttodo.domain;
 
 // TODO - needs stubbing
-public class TaskService {
+public class SupplementalService {
 }

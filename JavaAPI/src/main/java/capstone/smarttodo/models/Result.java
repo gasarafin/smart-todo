@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// Stub - stubbed from fans
+// Draft - modified slightly from fans
 public class Result<T> {
 
     private final ArrayList<String> errorMessages = new ArrayList<>();
@@ -33,6 +33,10 @@ public class Result<T> {
 
     public HttpStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 
     public List<String> getErrorMessages() {

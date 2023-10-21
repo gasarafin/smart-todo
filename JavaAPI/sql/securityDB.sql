@@ -33,6 +33,8 @@ insert into app_role (`name`) values
     ('USER'),
     ('ADMIN');
 
+-- DELETE EVERYTHING BELOW HERE BEFORE DEPLOYMENT
+
 -- passwords are set to "P@ssw0rd!"
 insert into app_user (username, password_hash, enabled)
     values

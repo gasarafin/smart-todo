@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// Stub - stubbed from fans
+// Stub - from fans
 public class AppUser implements UserDetails {
 
     private int appUserId;

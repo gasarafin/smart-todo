@@ -1,6 +1,6 @@
 package capstone.smarttodo.security;
 
-import capstone.smarttodo.data.AppUserJdbcTemplateRepository;
+import capstone.smarttodo.data.appuser.AppUserJdbcTemplateRepository;
 import capstone.smarttodo.models.Result;
 import capstone.smarttodo.models.AppUser;
 

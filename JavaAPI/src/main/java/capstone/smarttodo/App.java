@@ -11,3 +11,7 @@ public class App {
         SpringApplication.run(App.class, args);
     }
 }
+
+// TODO List For Files Not In This Project
+//  - SQL Schema - Delete default login info at bottom of securityDB.sql
+//  - SQL Schema - Maybe replace entire location table with Google Places place_id

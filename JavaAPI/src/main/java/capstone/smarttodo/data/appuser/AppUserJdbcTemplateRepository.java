@@ -1,4 +1,4 @@
-package capstone.smarttodo.data;
+package capstone.smarttodo.data.appuser;
 
 import capstone.smarttodo.models.AppUser;
 
