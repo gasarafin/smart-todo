@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
+// ATTN - maybe add user timezone here
+
 // Stub - stubbed from fans
 @Repository
 public class AppUserJdbcTemplateRepository implements AppUserRepository {

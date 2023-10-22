@@ -1,6 +1,6 @@
-drop database if exists smart_to_do_test;
-create database smart_to_do_test;
-use smart_to_do_test;
+drop database if exists smart_to_do;
+create database smart_to_do;
+use smart_to_do;
 
 drop table if exists task_priority;
 drop table if exists location;

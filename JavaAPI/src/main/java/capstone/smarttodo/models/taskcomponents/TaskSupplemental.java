@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class TaskSupplemental {
 
     private HashMap<DayOfWeek, SupplementalHours> locationWeeklyHours;
-    private TimeUnit commuteDuration;
+    private TimeUnit commuteDuration;       // Notes - fine for now since doesn't use traffic (and therefore not variable)
 
     // NOTES - just a curiosity now - is there a way to require an array of 7 elements in a constructor
     // e.g. 'SupplementalHours[] locationWeeklyHours = new SupplementalHours[7]'

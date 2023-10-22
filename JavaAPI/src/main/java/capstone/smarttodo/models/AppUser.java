@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// ATTN - maybe move TZ here
+
 // Stub - from fans
 public class AppUser implements UserDetails {
 

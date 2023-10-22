@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+// ATTN - maybe add user timezone here
+
 // Stub - stubbed from fans
 public class AppUserMapper implements RowMapper<AppUser> {
     private final List<String> roles;
