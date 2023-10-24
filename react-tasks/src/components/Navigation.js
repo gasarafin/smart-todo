@@ -21,7 +21,7 @@ function Navigation() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/newtask">Add Task</Nav.Link>
+                        <Nav.Link href="/addtask">Add Task</Nav.Link>
                         <Nav.Link href="/viewtasks">View Tasks</Nav.Link>
                         <NavDropdown title="Accounts" id="basic-nav-dropdown">
                             <NavDropdown.Item href="/login">Log In</NavDropdown.Item>

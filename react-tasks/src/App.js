@@ -18,8 +18,6 @@ import TaskList from "./components/TaskList";
 import AuthContext from "./contexts/AuthContext";
 import { refreshToken, logout } from './services/AuthAPI';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
 function App() {

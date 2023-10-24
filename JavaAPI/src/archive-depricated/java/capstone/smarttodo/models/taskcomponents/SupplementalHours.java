@@ -1,11 +1,13 @@
 package capstone.smarttodo.models.taskcomponents;
 
-import java.time.LocalTime;
+import java.sql.Time;
 
-// Draft
+/**
+ * @deprecated Probably no use to having this - always stays on front end
+ */
 public class SupplementalHours {
-    private final LocalTime opening;
-    private final LocalTime closing;
+    private final Time opening;
+    private final Time closing;
 
     /**
      * Opening and closing times for a location
@@ -13,16 +15,16 @@ public class SupplementalHours {
      * @param opening opening time
      * @param closing closing time
      */
-    public SupplementalHours(LocalTime opening, LocalTime closing) {
+    public SupplementalHours(Time opening, Time closing) {
         this.opening = opening;
         this.closing = closing;
     }
 
-    public LocalTime getOpening() {
+    public Time getOpening() {
         return opening;
     }
 
-    public LocalTime getClosing() {
+    public Time getClosing() {
         return closing;
     }
 }

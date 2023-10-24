@@ -1,7 +1,9 @@
-# Dev10 Capstone</br>*`Smart To-Do List`*
+![Smart Tasker Logo](./react-tasks/public/smarttasker.svg)
+
+# Dev10 Capstone
 
 ## Introduction
-The `Smart To-Do List` *(working name)* is a multi-faceted  tasks list that helps a user complete their tasks by helping to prioritize tasks whose completion  may be affected by external forces. The application will do this by providing weather and location information for relevant tasks.
+The `SmartTasker` is a multi-faceted  tasks list that helps a user complete their tasks by helping to prioritize tasks whose completion  may be affected by external forces. The application will do this by providing weather and location information for relevant tasks.
 
 ***
 

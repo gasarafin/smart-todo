@@ -65,24 +65,55 @@ create table app_user_role (
         references app_role(app_role_id)
 );
 
+create table location (
+    location_id int primary key auto_increment,
+    location_name varchar(50) not null,
+    location_address_1 varchar(50) not null,
+    location_address_2 varchar(50),
+    location_city varchar(20) not null,
+    location_state varchar(5) not null,		-- separate out state into a separate table
+    location_postal varchar(20) not null
+);
+
+create table location_supplemental (
+    location_id int primary key auto_increment,
+    day_1_open time,
+    day_1_close time,
+    day_2_open time,
+    day_2_close time,
+	day_3_open time,
+    day_3_close time,
+	day_4_open time,
+    day_4_close time,
+	day_5_open time,
+    day_5_close time,
+	day_6_open time,
+    day_6_close time,
+	day_7_open time,
+    day_7_close time
+);
+
 create table task (
     task_id int primary key auto_increment,
     app_user_id int,
     task_name varchar(20) not null,
     due_date datetime,
     is_outdoors bit not null default(1),
-    google_places_id varchar(50),
+    location_id int,
+    google_places_id varchar(50),			-- maybe replace entire location table with this
     task_details text,
+	constraint fk_location_id
+		foreign key (location_id)
+		references location(location_id),
 	constraint fk_app_user_id
 		foreign key (app_user_id)
 		references app_user(app_user_id)
 );
 
 create table task_priority (
-    task_id int,
+    task_priority_id int primary key auto_increment,		-- change this out after testing
+    task_id int not null,
     task_priority smallint not null,
-    constraint pk_task_priority_id
-        primary key (task_id),
 	constraint fk_task_id
 		foreign key (task_id)
 		references task(task_id)

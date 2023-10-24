@@ -4,7 +4,9 @@
  */
 package capstone.smarttodo.models.taskcomponents;
 
-// Draft
+/**
+ * @deprecated Probably no use to having this
+ */
 public enum USState {
 
     ALABAMA("Alabama","AL","US-AL"),

@@ -38,7 +38,7 @@ public class AppUserService implements UserDetailsService {
         return appUser;
     }
 
-    public Result<AppUser> create(String username, String password) {
+    public Result<AppUser> create(String username, String password, String userTZ) {
         Result<AppUser> result = validate(username, password);
         if (!result.isSuccess()) {
             return result;
@@ -46,7 +46,7 @@ public class AppUserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, true, List.of("USER"));
+        AppUser appUser = new AppUser(0, username, password, true, userTZ, List.of("USER"));
 
         try {
             appUser = repository.create(appUser);
@@ -101,4 +101,6 @@ public class AppUserService implements UserDetailsService {
 
         return digits > 0 && letters > 0 && others > 0;
     }
+
+    // TODO validate ZoneID
 }

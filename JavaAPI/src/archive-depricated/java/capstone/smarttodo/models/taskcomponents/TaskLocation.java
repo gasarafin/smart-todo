@@ -4,7 +4,9 @@
 
 package capstone.smarttodo.models.taskcomponents;
 
-// Draft
+/**
+ * @deprecated Probably no use to having this - always stays on front end
+ */
 public class TaskLocation {
     private int locationID;
     private String locationName;

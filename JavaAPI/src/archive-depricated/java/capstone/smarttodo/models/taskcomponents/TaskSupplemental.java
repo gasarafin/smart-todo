@@ -4,7 +4,9 @@ import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-// Draft
+/**
+ * @deprecated Probably no use to having this
+ */
 public class TaskSupplemental {
 
     private HashMap<DayOfWeek, SupplementalHours> locationWeeklyHours;
@@ -22,6 +24,10 @@ public class TaskSupplemental {
     public TaskSupplemental(HashMap<DayOfWeek, SupplementalHours> locationWeeklyHours, TimeUnit commuteDuration) {
         this.locationWeeklyHours = locationWeeklyHours;
         this.commuteDuration = commuteDuration;
+    }
+
+    public TaskSupplemental(HashMap<DayOfWeek, SupplementalHours> locationWeeklyHours) {
+        this.locationWeeklyHours = locationWeeklyHours;
     }
 
     public HashMap<DayOfWeek, SupplementalHours> getLocationWeeklyHours() {
