@@ -12,7 +12,7 @@ public class UserTask {
     private final int taskID;
     private int userID;
     private String taskName;
-    private ZonedDateTime dueDate;
+    private LocalDateTime dueDate;
     private boolean isOutdoors;
     private String gPlaceID;
     private String taskDetails;
@@ -27,12 +27,12 @@ public class UserTask {
      * @param taskID auto-assigned by SQL
      * @param userID unique user ID of task maker
      * @param taskName required user field
-     * @param dueDate datetime variable with timezone defined within (user optional)
+     * @param dueDate datetime variable (user optional)
      * @param isOutdoors is the take an outdoor task? (user required)
      * @param gPlaceID unique ID set by google places API (user optional)
      * @param taskDetails user details about task (user optional)
      */
-    public UserTask(int taskID, int userID, String taskName, ZonedDateTime dueDate, boolean isOutdoors, String gPlaceID, String taskDetails) {
+    public UserTask(int taskID, int userID, String taskName, LocalDateTime dueDate, boolean isOutdoors, String gPlaceID, String taskDetails) {
         this.taskID = taskID;
         this.userID = userID;
         this.taskName = taskName;
@@ -47,12 +47,12 @@ public class UserTask {
      *
      * @param userID unique user ID of task maker
      * @param taskName required user field
-     * @param dueDate datetime variable with timezone defined within (user optional)
+     * @param dueDate datetime variable (user optional)
      * @param isOutdoors is the take an outdoor task? (user required)
      * @param gPlaceID unique ID set by google places API (user optional)
      * @param taskDetails user details about task (user optional)
      */
-    public UserTask(int userID, String taskName, ZonedDateTime dueDate, boolean isOutdoors, String gPlaceID, String taskDetails) {
+    public UserTask(int userID, String taskName, LocalDateTime dueDate, boolean isOutdoors, String gPlaceID, String taskDetails) {
         this.taskID = -1;
         this.userID = userID;
         this.taskName = taskName;
@@ -92,16 +92,16 @@ public class UserTask {
         this.taskName = taskName;
     }
 
-    public ZonedDateTime getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
     public void setDueDate(String dueDate) {
-        this.dueDate = ZonedDateTime.parse(dueDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        this.dueDate = LocalDateTime.parse(dueDate);
     }
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeFormatter.ISO_ZONED_DATE_TIME)
-    public void setDueDate(ZonedDateTime dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 

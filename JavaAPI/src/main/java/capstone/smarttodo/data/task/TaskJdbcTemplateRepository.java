@@ -114,7 +114,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, task.getUserTask().getUserID());
             ps.setString(2, task.getUserTask().getTaskName());
-            ps.setTimestamp(3, (task.getUserTask().getDueDate()==null?null:Timestamp.valueOf(task.getUserTask().getDueDate().toLocalDateTime())));
+            ps.setTimestamp(3, (task.getUserTask().getDueDate()==null?null:Timestamp.valueOf(task.getUserTask().getDueDate())));
             ps.setBoolean(4, task.getUserTask().isOutdoors());
             ps.setString(5, task.getUserTask().getGPlaceID());
             ps.setString(6, task.getUserTask().getTaskDetails());
@@ -142,7 +142,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
 
         jdbcTemplate.update(sql,
                 task.getUserTask().getTaskName(),
-                task.getUserTask().getDueDate()==null?null:Timestamp.valueOf(task.getUserTask().getDueDate().toLocalDateTime()),
+                task.getUserTask().getDueDate()==null?null:Timestamp.valueOf(task.getUserTask().getDueDate()),
                 task.getUserTask().isOutdoors(),
                 task.getUserTask().getGPlaceID(),
                 task.getUserTask().getTaskDetails(),

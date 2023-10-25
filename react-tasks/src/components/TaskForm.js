@@ -134,20 +134,26 @@ function TaskForm() {
             .catch(console.error);
     }
 
-    function handleChange(evt) {
+    function handleClick(evt) {
+        setTask({userTask, taskPriority});
+    }
+
+ function handleChange(evt) {
 
         setUserTask(previous => {
             const next = { ...previous };
             next[evt.target.name] = evt.target.value;
+            
             return next;
         });
+     
 
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
 
-        setTask(userTask, taskPriority);
+ 
 
         console.log(task)
 
@@ -199,7 +205,7 @@ function TaskForm() {
                     </div>
                 </div>
 */}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button onClick={handleClick}  type="submit" class="btn btn-primary">Submit</button>
             </form>
         </>
     );

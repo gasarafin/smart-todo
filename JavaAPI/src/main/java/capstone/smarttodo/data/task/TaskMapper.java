@@ -20,8 +20,7 @@ public class TaskMapper implements RowMapper<Task> {
                                             rs.getInt("app_user_id"),
                                             rs.getString("task_name"),
                                             rs.getObject("due_date", LocalDateTime.class)==null
-                                                    ?null:rs.getObject("due_date", LocalDateTime.class)
-                                                    .atZone(ZoneId.of(rs.getString("zone_id"))),
+                                                    ?null:rs.getObject("due_date", LocalDateTime.class),
                                             rs.getBoolean("is_outdoors"),
                                             rs.getString("google_places_id"),
                                             rs.getString("task_details")
