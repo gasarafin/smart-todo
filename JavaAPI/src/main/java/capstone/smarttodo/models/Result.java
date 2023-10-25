@@ -8,14 +8,13 @@ import java.util.Objects;
 
 // Draft - modified slightly from fans
 public class Result<T> {
-
     private final ArrayList<String> errorMessages = new ArrayList<>();
     private HttpStatus status = HttpStatus.OK;
     private T payload;
 
 
     public boolean isSuccess() {
-        return errorMessages.isEmpty();
+        return status == HttpStatus.OK;
     }
 
     public T getPayload() {
@@ -46,7 +45,6 @@ public class Result<T> {
     public void addErrorMessage(String errorMessage, HttpStatus status) {
         this.errorMessages.add(errorMessage);
         this.status = status;
-
     }
 
     @Override

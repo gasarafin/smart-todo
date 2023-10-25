@@ -68,7 +68,7 @@ create table app_user_role (
 create table task (
     task_id int primary key auto_increment,
     app_user_id int,
-    task_name varchar(20) not null,
+    task_name varchar(50) not null,
     due_date datetime,
     is_outdoors bit not null default(1),
     google_places_id varchar(50),
@@ -80,7 +80,7 @@ create table task (
 
 create table task_priority (
     task_id int,
-    task_priority smallint not null,
+    task_priority smallint,
     constraint pk_task_priority_id
         primary key (task_id),
 	constraint fk_task_id

@@ -9,4 +9,8 @@ public interface TaskRepository {
     List<Task> findByUser(String user);
 
     boolean create(Task task);
+
+    void update(Task task);
+
+    boolean delete(int taskID);
 }

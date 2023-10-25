@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class TaskMapper implements RowMapper<Task> {
 
@@ -17,7 +19,9 @@ public class TaskMapper implements RowMapper<Task> {
         UserTask userTask = new UserTask(   rs.getInt("task_id"),
                                             rs.getInt("app_user_id"),
                                             rs.getString("task_name"),
-                                            rs.getTimestamp("due_date").toLocalDateTime(),
+                                            rs.getObject("due_date", LocalDateTime.class)==null
+                                                    ?null:rs.getObject("due_date", LocalDateTime.class)
+                                                    .atZone(ZoneId.of(rs.getString("zone_id"))),
                                             rs.getBoolean("is_outdoors"),
                                             rs.getString("google_places_id"),
                                             rs.getString("task_details")

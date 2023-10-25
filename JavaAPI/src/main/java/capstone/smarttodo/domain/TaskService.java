@@ -1,11 +1,18 @@
 package capstone.smarttodo.domain;
 
 import capstone.smarttodo.data.task.TaskJdbcTemplateRepository;
+import capstone.smarttodo.models.Result;
 import capstone.smarttodo.models.Task;
 import capstone.smarttodo.models.taskcomponents.TaskPriority;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class TaskService {
     private final TaskJdbcTemplateRepository repository;
 
@@ -13,20 +20,53 @@ public class TaskService {
         this.repository = repository;
     }
 
-    public List<Task> findByUser(String user) {
-        return repository.findByUser(user);
+    public Result<List<Task>> findByUser(String user) {
+        Result<List<Task>> results = new Result<>();
+        results.setPayload(repository.findByUser(user));
+
+        return results;
     }
 
-    public void setPriority(int taskID, TaskPriority taskPriority) {
-        repository.setPriority(taskID, taskPriority);
+    public Result<Task> findByTaskID(int taskID) {
+        Result<Task> results = new Result<>();
+        results.setPayload(repository.findByTaskID(taskID));
+
+        return results;
     }
 
-    public boolean create(Task task) {
-        return repository.create(task);
+    public <T> Result<T> updatePriority(int taskID, TaskPriority taskPriority) {
+        Result<T> results = new Result<>();
+        repository.updatePriority(taskID, taskPriority);
+
+        return results;
     }
 
-    public void update(Task task) {
+    public <T> Result<T> updatePriorityList(HashMap<Integer, TaskPriority> taskPriorityList) {
+        Result<T> results = new Result<>();
+        repository.updatePriorityList(taskPriorityList);
+
+        return results;
+    }
+
+    public <T> Result<T> create(Task task) {
+        Result<T> results = new Result<>();
+        repository.create(task);
+
+        return results;
+    }
+
+    public <T> Result<T> update(Task task) {
+        Result<T> results = new Result<>();
         repository.update(task);
+
+        return results;
+    }
+
+    public <T> Result<T> delete(int taskID) {
+        Result<T> results = new Result<>();
+        repository.delete(taskID);
+
+        return results;
     }
 
     // TODO Needs validation

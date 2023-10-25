@@ -7,6 +7,9 @@ package capstone.smarttodo.models.taskcomponents;
 public class TaskPriority {
     private int priorityID;
 
+    public TaskPriority() {
+    }
+
     public TaskPriority(int priorityID) {
         this.priorityID = priorityID;
     }

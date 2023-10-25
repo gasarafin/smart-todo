@@ -7,9 +7,9 @@ export default function Footer() {
     return (
 
 <>
-<div class="container">
-  <footer class="py-3 my-4">
-    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+<div className="container">
+  <footer className="py-3 my-4">
+    <ul className="nav justify-content-center border-bottom pb-3 mb-3">
     <NavLink to="/" className="nav-link px-2 text-muted">
                     Home
                 </NavLink>
@@ -26,7 +26,7 @@ export default function Footer() {
       PlaceHolder
                 </NavLink>
     </ul>
-    <p class="text-center text-muted">© 2023 SmartTasker</p>
+    <p className="text-center text-muted">© 2023 SmartTasker</p>
   </footer>
 </div>   
 
