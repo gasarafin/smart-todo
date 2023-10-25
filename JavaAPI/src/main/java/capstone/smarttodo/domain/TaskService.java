@@ -3,11 +3,7 @@ package capstone.smarttodo.domain;
 import capstone.smarttodo.data.task.TaskJdbcTemplateRepository;
 import capstone.smarttodo.models.Result;
 import capstone.smarttodo.models.Task;
-import capstone.smarttodo.models.taskcomponents.TaskPriority;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +30,14 @@ public class TaskService {
         return results;
     }
 
-    public <T> Result<T> updatePriority(int taskID, TaskPriority taskPriority) {
+    public <T> Result<T> updatePriority(int taskID, int taskPriority) {
         Result<T> results = new Result<>();
         repository.updatePriority(taskID, taskPriority);
 
         return results;
     }
 
-    public <T> Result<T> updatePriorityList(HashMap<Integer, TaskPriority> taskPriorityList) {
+    public <T> Result<T> updatePriorityList(HashMap<Integer, Integer> taskPriorityList) {
         Result<T> results = new Result<>();
         repository.updatePriorityList(taskPriorityList);
 

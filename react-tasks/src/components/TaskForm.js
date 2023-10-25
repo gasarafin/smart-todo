@@ -125,7 +125,7 @@ function TaskForm() {
             .then(body => {
                 setModalInfo({
                     title: "Error",
-                    body: body[0],
+                    //body: body[0],
                     btnName: "Close",
                     route: "."
                 });

@@ -3,8 +3,6 @@ package capstone.smarttodo.controller;
 import capstone.smarttodo.domain.TaskService;
 import capstone.smarttodo.models.Result;
 import capstone.smarttodo.models.Task;
-import capstone.smarttodo.models.taskcomponents.TaskPriority;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,7 +64,7 @@ public class TaskController {
     }
 
     @PutMapping("/priority/{taskID}")
-    public ResponseEntity<?> updatePriority(@PathVariable int taskID, @RequestBody TaskPriority taskPriority) {
+    public ResponseEntity<?> updatePriority(@PathVariable int taskID, @RequestBody int taskPriority) {
         Result<?> result = service.updatePriority(taskID, taskPriority);
 
         if (result.isSuccess()) {
@@ -77,7 +75,7 @@ public class TaskController {
     }
 
     @PutMapping("/priority/list")
-    public ResponseEntity<?> updatePriorityList(@RequestBody HashMap<Integer, TaskPriority> taskPriorityList) {
+    public ResponseEntity<?> updatePriorityList(@RequestBody HashMap<Integer, Integer> taskPriorityList) {
         Result<?> result = service.updatePriorityList(taskPriorityList);
 
         if (result.isSuccess()) {
