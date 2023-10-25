@@ -13,7 +13,6 @@ function TaskForm() {
     }
 
     const INITIAL_TASK = {
-        userTask: {
             taskID: 0,
             userID: 0,
             taskName: "",
@@ -21,15 +20,10 @@ function TaskForm() {
             taskDetails: null,
             gplaceID: null,
             outdoors: false
-        },
-        taskPriority: {
-            priorityID: 0
-        }
     };
 
     const [task, setTask] = useState(INITIAL_TASK);
-    const [userTask, setUserTask] = useState(INITIAL_TASK.userTask);
-    const [taskPriority, setTaskPriority] = useState(INITIAL_TASK.taskPriority);
+
 
     //const { taskID } = useParams();
 
@@ -56,17 +50,10 @@ function TaskForm() {
         if (taskID > 0) {
             fetch(`http://localhost:8080/api/idtask/${taskID}`)
                 .then(res => res.json())
-                .then(ev => {
-                    setTask(ev);
-                    setUserTask(ev.userTask);
-                    setTaskPriority(ev.taskPriority);
-                })
+                .then(setTask)
                 .catch(console.error);
         }
     }, [taskID]);
-
-
-
 
     function create() {
         fetch(`http://localhost:8080/api`, {
@@ -136,18 +123,16 @@ function TaskForm() {
 
     function handleChange(evt) {
 
-        setUserTask(previous => {
+        setTask(previous => {
             const next = { ...previous };
             next[evt.target.name] = evt.target.value;
+
             return next;
         });
-
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-
-        setTask(userTask, taskPriority);
 
         console.log(task)
 
@@ -166,19 +151,19 @@ function TaskForm() {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="taskName">Task Name</label>
-                    <input type="text" className="form-control" id="taskName" name="taskName" onChange={handleChange} value={userTask.taskName} />
+                    <input type="text" className="form-control" id="taskName" name="taskName" onChange={handleChange} value={task.taskName} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="dueDate">Due Date</label>
-                    <input type="datetime-local" className="form-control" id="dueDate" name="dueDate" onChange={handleChange} value={userTask.dueDate} />
+                    <input type="datetime-local" className="form-control" id="dueDate" name="dueDate" onChange={handleChange} value={task.dueDate} />
                 </div>
                 <div className="form-check">
                     <label htmlFor="isOutdoors">Is this an outdoor task?</label>
-                    <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={userTask.isOutdoors} />
+                    <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={task.isOutdoors} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="taskDetails">Task Details</label>
-                    <input type="text" className="form-control" id="taskDetails" name="taskDetails" onChange={handleChange} value={userTask.taskDetails} />
+                    <input type="text" className="form-control" id="taskDetails" name="taskDetails" onChange={handleChange} value={task.taskDetails} />
                 </div>
                 <div className="form-check">
                     <label htmlFor="haveLocation">Do you want to include a location?</label>

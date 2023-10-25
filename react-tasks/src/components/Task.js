@@ -23,12 +23,12 @@ function Task({ tasks }) {
             </thead>
             <tbody>
                 {tasks.map(task => (
-                    <tr key={task.userTask.taskID}>
-                        <th id="taskPriority" name="taskPriority" scope="row">{task.taskPriority.priorityID}</th>
-                        <td id="taskName" name="taskName">{task.userTask.taskName}</td>
-                        <td type="datetime-local" id="dueDate" name="dueDate">{task.userTask.dueDate}</td>
-                        <td id="taskDetails" name="taskDetails">{task.userTask.taskDetails}</td>
-                        <td id="taskLocation" name="taskLocation">{task.userTask.gplaceID} API Call</td>
+                    <tr key={task.taskID}>
+                        <th id="taskPriority" name="taskPriority" scope="row">{task.taskPriority}</th>
+                        <td id="taskName" name="taskName">{task.taskName}</td>
+                        <td type="datetime-local" id="dueDate" name="dueDate">{task.dueDate}</td>
+                        <td id="taskDetails" name="taskDetails">{task.taskDetails}</td>
+                        <td id="taskLocation" name="taskLocation">{task.gplaceID} API Call</td>
                         <td id="taskCommute" name="taskCommute">Location API Call</td>
                         <td id="taskWeather" name="taskWeather">Weather API Call</td>
                     </tr>
