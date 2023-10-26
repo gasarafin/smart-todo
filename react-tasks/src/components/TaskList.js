@@ -3,16 +3,20 @@
 import { useEffect, useState } from "react";
 import Task from "./Task";
 
+
 function TaskList() {
-
-
-
-const userName = 'john@smith.com'                                       // BUG Placeholder for JWT Token
-
-
-
     const [tasks, setTasks] = useState([]);
 
+
+
+
+
+    const userName = 'john@smith.com'                                       // BUG Placeholder for JWT Token
+
+
+
+
+    
     useEffect(() => {
         const fetchTasks = async () => {
             const response = await fetch(`http://localhost:8080/api/usertask/${userName}`);
@@ -22,9 +26,10 @@ const userName = 'john@smith.com'                                       // BUG P
                 setTasks([]);
             }
         };
-
         fetchTasks();
+
     }, []);
+
 
     return (
         <>
@@ -32,7 +37,7 @@ const userName = 'john@smith.com'                                       // BUG P
                 <div className="alert alert-warning py-4">
                     You have not added any tasks.
                 </div>
-                : <Task tasks={tasks} />}
+                : <Task functions={[tasks, setTasks]} />}
         </>
     );
 };

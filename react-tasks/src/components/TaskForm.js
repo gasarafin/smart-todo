@@ -19,7 +19,8 @@ function TaskForm() {
             dueDate: null,
             taskDetails: null,
             gplaceID: null,
-            outdoors: false
+            outdoors: false,
+            priorityID: 0
     };
 
     const [task, setTask] = useState(INITIAL_TASK);
@@ -32,16 +33,17 @@ function TaskForm() {
     const taskID = 1;                                                 // BUG Placeholder
 
 
+    
     // Start Modal Functionality Block
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const BASE_MODAL = {
-        title: "Title",
-        body: "Body",
-        btnName: "Button",
-        route: "#"
+        title: "Success",
+        body: "Error - Should not see this body.",
+        btnName: "Close",
+        route: "/viewtasks"
     }
     const [modalInfo, setModalInfo] = useState(BASE_MODAL);
     // End Modal Functionality Block
@@ -65,7 +67,12 @@ function TaskForm() {
         })
             .then(res => {
                 if (res.ok) {
-                    setModalInfo(BASE_MODAL);
+                    setModalInfo({
+                        title: "Success",
+                        body: "Success - Task Created.",
+                        btnName: "Close",
+                        route: "/viewtasks"
+                    });
                     handleShow();
                 } else if (res.status === 400) {
                     return res.json();
@@ -77,10 +84,10 @@ function TaskForm() {
             })
             .then(body => {
                 setModalInfo({
-                    title: "Error",
-                    body: body[0],
+                    title: "Add Error",
+                    body: (body == null?"This task was not added." :  body[0]),
                     btnName: "Close",
-                    route: "."
+                    route: "/viewtasks"
                 });
                 handleShow();
             })
@@ -97,7 +104,12 @@ function TaskForm() {
         })
             .then(res => {
                 if (res.ok) {
-                    setModalInfo(BASE_MODAL);
+                    setModalInfo({
+                        title: "Success",
+                        body: "Success - Task Updated.",
+                        btnName: "Close",
+                        route: "/viewtasks"
+                    });
                     handleShow();
                 } else if (res.status === 400) {
                     return res.json()
@@ -111,30 +123,28 @@ function TaskForm() {
             })
             .then(body => {
                 setModalInfo({
-                    title: "Error",
-                    //body: body[0],
+                    title: "Update Error",
+                    body: (body == null?"This task was not updated." :  body[0]),
                     btnName: "Close",
-                    route: "."
+                    route: "/viewtasks"
                 });
                 handleShow();
             })
             .catch(console.error);
     }
 
-    function handleChange(evt) {
+ function handleChange(evt) {
 
         setTask(previous => {
             const next = { ...previous };
             next[evt.target.name] = evt.target.value;
-
+            
             return next;
         });
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-
-        console.log(task)
 
         if (taskID > 0) {
             update();
@@ -145,7 +155,6 @@ function TaskForm() {
 
     return (
         <>
-
             {<ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />}
 
             <form onSubmit={handleSubmit}>

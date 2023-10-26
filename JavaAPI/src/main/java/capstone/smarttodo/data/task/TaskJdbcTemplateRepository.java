@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class TaskJdbcTemplateRepository implements TaskRepository {
@@ -79,6 +80,13 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 .findFirst().orElse(null);
     }
 
+    public void setInitialPriority(int taskID, int taskPriority) {        // TODO needs better return values
+        final String sql = "insert into task_priority (task_id, task_priority)"
+                + "values (?, ?);";
+
+        jdbcTemplate.update(sql, taskID, taskPriority);
+    }
+
     public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
         final String sql = "update task_priority set task_priority = ? where task_id = ?;";
 
@@ -111,6 +119,8 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
             ps.setString(6, task.getTaskDetails());
             return ps;
         }, keyHolder);
+
+        setInitialPriority(Objects.requireNonNull(keyHolder.getKey()).intValue(), 1);
 
         return rowsAffected > 0;
     }
