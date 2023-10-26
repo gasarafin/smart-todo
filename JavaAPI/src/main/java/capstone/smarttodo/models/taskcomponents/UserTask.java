@@ -97,13 +97,15 @@ public class UserTask {
     }
 
     public void setDueDate(String dueDate) {
-        this.dueDate = LocalDateTime.parse(dueDate);
+        if (dueDate != null) {
+            this.dueDate = LocalDateTime.parse(dueDate);
+        }
     }
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeFormatter.ISO_ZONED_DATE_TIME)
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
+//    public void setDueDate(LocalDateTime dueDate) {
+//        this.dueDate = dueDate;
+//    }
 
     public boolean isOutdoors() {
         return isOutdoors;

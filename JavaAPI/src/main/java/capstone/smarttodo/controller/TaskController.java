@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
@@ -77,8 +78,8 @@ public class TaskController {
     }
 
     @PutMapping("/priority/list")
-    public ResponseEntity<?> updatePriorityList(@RequestBody HashMap<Integer, TaskPriority> taskPriorityList) {
-        Result<?> result = service.updatePriorityList(taskPriorityList);
+    public ResponseEntity<?> updatePriorityList(@RequestBody List<Task> sortedTasks) {
+        Result<?> result = service.updatePriorityList(sortedTasks);
 
         if (result.isSuccess()) {
             return new ResponseEntity<>(result.getPayload(), result.getStatus());

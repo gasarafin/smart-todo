@@ -43,7 +43,8 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 from task t
                 left join task_priority tp on t.task_id=tp.task_id
                 inner join app_user au on t.app_user_id=au.app_user_id
-                where username = ?;
+                where username = ?
+                order by tp.task_priority asc;
                 """;
 
         return jdbcTemplate.query(sql, new TaskMapper(), user);
@@ -95,10 +96,9 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
     }
 
     @Transactional
-    public void updatePriorityList(HashMap<Integer, TaskPriority> taskPriorityList) {
-
-        for (int key : taskPriorityList.keySet()) {
-            updatePriority(key, taskPriorityList.get(key));
+    public void updatePriorityList(List<Task> sortedTasks) {
+        for (Task task : sortedTasks) {
+            updatePriority(task.getUserTask().getTaskID(), task.getTaskPriority());
         }
     }
 

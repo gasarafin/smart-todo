@@ -38,16 +38,17 @@ function TaskForm() {
     const taskID = 1;                                                 // BUG Placeholder
 
 
+    
     // Start Modal Functionality Block
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const BASE_MODAL = {
-        title: "Title",
-        body: "Body",
-        btnName: "Button",
-        route: "#"
+        title: "Success",
+        body: "Error - Should not see this body.",
+        btnName: "Close",
+        route: "/viewtasks"
     }
     const [modalInfo, setModalInfo] = useState(BASE_MODAL);
     // End Modal Functionality Block
@@ -57,16 +58,13 @@ function TaskForm() {
             fetch(`http://localhost:8080/api/idtask/${taskID}`)
                 .then(res => res.json())
                 .then(ev => {
-                    setTask(ev);
+   //                 setTask(ev);
                     setUserTask(ev.userTask);
                     setTaskPriority(ev.taskPriority);
                 })
                 .catch(console.error);
         }
     }, [taskID]);
-
-
-
 
     function create() {
         fetch(`http://localhost:8080/api`, {
@@ -78,7 +76,12 @@ function TaskForm() {
         })
             .then(res => {
                 if (res.ok) {
-                    setModalInfo(BASE_MODAL);
+                    setModalInfo({
+                        title: "Success",
+                        body: "Success - Task Created.",
+                        btnName: "Close",
+                        route: "/viewtasks"
+                    });
                     handleShow();
                 } else if (res.status === 400) {
                     return res.json();
@@ -90,10 +93,10 @@ function TaskForm() {
             })
             .then(body => {
                 setModalInfo({
-                    title: "Error",
-                    body: body[0],
+                    title: "Add Error",
+                    body: (body == null?"This task was not added." :  body[0]),
                     btnName: "Close",
-                    route: "."
+                    route: "/viewtasks"
                 });
                 handleShow();
             })
@@ -110,7 +113,12 @@ function TaskForm() {
         })
             .then(res => {
                 if (res.ok) {
-                    setModalInfo(BASE_MODAL);
+                    setModalInfo({
+                        title: "Success",
+                        body: "Success - Task Updated.",
+                        btnName: "Close",
+                        route: "/viewtasks"
+                    });
                     handleShow();
                 } else if (res.status === 400) {
                     return res.json()
@@ -124,10 +132,10 @@ function TaskForm() {
             })
             .then(body => {
                 setModalInfo({
-                    title: "Error",
-                    body: body[0],
+                    title: "Update Error",
+                    body: (body == null?"This task was not updates." :  body[0]),
                     btnName: "Close",
-                    route: "."
+                    route: "/viewtasks"
                 });
                 handleShow();
             })
@@ -146,16 +154,10 @@ function TaskForm() {
             
             return next;
         });
-     
-
     }
 
     function handleSubmit(evt) {
         evt.preventDefault();
-
- 
-
-        console.log(task)
 
         if (taskID > 0) {
             update();
@@ -166,7 +168,6 @@ function TaskForm() {
 
     return (
         <>
-
             {<ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />}
 
             <form onSubmit={handleSubmit}>
@@ -205,6 +206,7 @@ function TaskForm() {
                     </div>
                 </div>
 */}
+                {/* BUG There is gonna be an issue here if enter is pressed instead of this button clicked. (because ev handling) */}
                 <button onClick={handleClick}  type="submit" class="btn btn-primary">Submit</button>
             </form>
         </>

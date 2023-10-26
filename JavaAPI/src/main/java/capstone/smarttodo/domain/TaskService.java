@@ -41,9 +41,9 @@ public class TaskService {
         return results;
     }
 
-    public <T> Result<T> updatePriorityList(HashMap<Integer, TaskPriority> taskPriorityList) {
+    public <T> Result<T> updatePriorityList(List<Task> sortedTasks) {
         Result<T> results = new Result<>();
-        repository.updatePriorityList(taskPriorityList);
+        repository.updatePriorityList(sortedTasks);
 
         return results;
     }
