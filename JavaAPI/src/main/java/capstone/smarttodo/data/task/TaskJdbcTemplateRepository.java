@@ -61,7 +61,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 select
                     t.task_id,
                     t.app_user_id,
-                    t.task_priority,
+                    tp.task_priority,
                     t.task_name,
                     t.due_date,
                     t.is_outdoors,
@@ -69,6 +69,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                     t.task_details,
                     au.zone_id
                 from task t
+                left join task_priority tp on t.task_id=tp.task_id
                 inner join app_user au on t.app_user_id=au.app_user_id
                 where t.task_id = ?;
                 """;
@@ -79,7 +80,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
     }
 
     public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
-        final String sql = "update task set task_priority = ? where task_id = ?;";
+        final String sql = "update task_priority set task_priority = ? where task_id = ?;";
 
         jdbcTemplate.update(sql, taskPriority, taskID);
     }
