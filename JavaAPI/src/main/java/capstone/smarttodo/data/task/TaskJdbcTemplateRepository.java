@@ -80,18 +80,24 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 .findFirst().orElse(null);
     }
 
-    public void setInitialPriority(int taskID, int taskPriority) {        // TODO needs better return values
-        final String sql = "insert into task_priority (task_id, task_priority)"
-                + "values (?, ?);";
+//    public void setInitialPriority(int taskID) {        // TODO needs better return values
+//        final String sql = "insert into task_priority (task_id)"
+//                + "values (?, null);";
+//
+//        jdbcTemplate.update(sql, taskID);
+//    }
+
+    public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
+        final String sql = "replace into task_priority values (?, ?);";
 
         jdbcTemplate.update(sql, taskID, taskPriority);
     }
 
-    public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
-        final String sql = "update task_priority set task_priority = ? where task_id = ?;";
-
-        jdbcTemplate.update(sql, taskPriority, taskID);
-    }
+//    public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
+//        final String sql = "update task_priority set task_priority = ? where task_id = ?;";
+//
+//        jdbcTemplate.update(sql, taskPriority, taskID);
+//    }
 
     @Transactional
     public void updatePriorityList(List<Task> sortedTasks) {
@@ -113,14 +119,14 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, task.getUserID());
             ps.setString(2, task.getTaskName());
-            ps.setTimestamp(3, (task.getDueDate()==null?null:Timestamp.valueOf(task.getDueDate())));
+            ps.setTimestamp(3, (task.getDueDate() == null ? null : Timestamp.valueOf(task.getDueDate())));
             ps.setBoolean(4, task.isOutdoors());
             ps.setString(5, task.getGPlaceID());
             ps.setString(6, task.getTaskDetails());
             return ps;
         }, keyHolder);
 
-        setInitialPriority(Objects.requireNonNull(keyHolder.getKey()).intValue(), 1);
+   //     setInitialPriority(Objects.requireNonNull(keyHolder.getKey()).intValue());
 
         return rowsAffected > 0;
     }
@@ -141,18 +147,24 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
 
         jdbcTemplate.update(sql,
                 task.getTaskName(),
-                task.getDueDate()==null?null:Timestamp.valueOf(task.getDueDate()),
+                task.getDueDate() == null ? null : Timestamp.valueOf(task.getDueDate()),
                 task.isOutdoors(),
                 task.getGPlaceID(),
                 task.getTaskDetails(),
                 task.getTaskID());
 
-        updatePriority(task.getTaskID(), task.getTaskPriority());
+        //updatePriority(task.getTaskID(), task.getTaskPriority());
     }
 
     @Override
     public boolean delete(int taskID) {
-        final String sql = "delete from task where task_id = ?;";
+        final String sql = """
+                delete task, task_priority
+                from task
+                left join task_priority on task.task_id=task_priority.task_id
+                where task_priority.task_id = ?;
+                """;
+
         return jdbcTemplate.update(sql, taskID) > 0;
     }
 }

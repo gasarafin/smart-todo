@@ -72,7 +72,7 @@ function App() {
             <Route path="/501" element={<NotImplemented />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/addtask" element={<TaskForm />} />
-            <Route path="/updatetask" element={<TaskForm />} />
+            <Route path="/updatetask/:taskID" element={<TaskForm />} />
             <Route path="/viewtasks" element={<TaskList />} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />

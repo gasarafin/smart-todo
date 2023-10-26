@@ -1,18 +1,21 @@
 // src/components/Task.js
 import React, { useMemo, useState, useEffect } from 'react';
 import { MaterialReactTable } from 'material-react-table';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography, IconButton } from '@mui/material';
 import ModalStructure from "./ModalStructure";
 
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
+import { Link } from 'react-router-dom';
 
 const Task = props => {
   const columns = useMemo(
     () => [
-      {
-        accessorKey: 'taskPriority',
-        header: 'Rank',
-      },
+      // {
+      //   accessorKey: 'taskPriority',
+      //   header: 'Rank',
+      // },
       {
         accessorKey: 'taskName',
         header: 'Task Name',
@@ -90,6 +93,47 @@ const Task = props => {
       .catch(console.error);
   }
 
+
+  function deleteTask(taskID) {
+
+    fetch(`http://localhost:8080/api/${taskID}`, {
+        method: 'DELETE'
+    })
+        .then(res => {
+            if (res.ok) {
+              setModalInfo({
+                title: "Success",
+                body: "Task Deleted.",
+                btnName: "Close",
+                route: "/viewtasks"
+              });
+              handleShow();
+            } else if (res.status === 400) {
+                res.json();
+            } else if (res.status === 404) {
+                console.log('Task ID not found.');
+            } else {
+                return Promise.reject(
+                    new Error(`Unexpected status code: ${res.status}`)
+                );
+            }
+        })
+        .catch(console.error);
+}
+
+// Need to modify ModalStructure for a second button that only appears sometimes
+// function deleteConfirm(taskInfo) {
+//   setModalInfo({
+//     title: "Delete Confirmation.",
+//     body: `Are you sure you want to delete ${taskInfo.taskName} from your task list?`,
+//     btnName: "Close",
+//     route: "/viewtasks"
+//   });
+//   handleShow();
+// }
+
+
+
   return (
     <>
       {< ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />}
@@ -98,12 +142,98 @@ const Task = props => {
         autoResetPageIndex={false}
         columns={columns}
         data={tasks}
-//        enableRowNumbers
+
+        enableRowNumbers
         rowNumberMode="static"
         enableRowOrdering
         enableSorting={false}
 
         enableColumnFilters={false}
+
+
+
+
+        enableRowActions
+        renderRowActions={({ row, table }) => (
+          <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
+            <IconButton
+              color="secondary"
+              onClick={() => {
+
+
+                table.setEditingRow(row);
+
+
+
+              }}
+            >
+
+
+
+<Link to={`/updatetask/${row.original.taskID}`} >
+<EditIcon />
+                    </Link>
+
+
+
+              
+            </IconButton>
+            <IconButton
+              color="error"
+              onClick={() => {
+                deleteTask(row.original.taskID)
+
+                tasks.splice(row.index, 1);
+
+                setTasks([...tasks.map((task, index) => ({
+                  ...task,
+                  taskPriority: index + 1
+                }))]);
+
+
+              }
+              }
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        )}
+
+
+
+
+
+
+
+
+
+
+
+
+        renderDetailPanel={({ row }) => (
+          <Box
+            sx={{
+              display: 'grid',
+              margin: 'auto',
+              gridTemplateColumns: '1fr 1fr',
+              width: '100%',
+            }}
+          >
+            <Typography>Extended Weather API PlaceHolder</Typography>
+          </Box>
+        )}
+
+
+
+
+
+
+
+
+
+
+
+
 
         renderTopToolbarCustomActions={({ table }) => (
           <Box sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}>
@@ -118,6 +248,18 @@ const Task = props => {
           </Box>
         )}
 
+
+
+
+
+
+
+
+
+
+
+
+        
 
         muiTableBodyRowDragHandleProps={({ table }) => ({
           onDragEnd: () => {

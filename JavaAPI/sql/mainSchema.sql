@@ -86,6 +86,7 @@ create table task_priority (
 	constraint fk_task_id
 		foreign key (task_id)
 		references task(task_id)
+        on delete cascade
 );
 
 insert into dst_info (dst_descriptor, dst_start_month, dst_start_day_week_offset, dst_start_day_of_week, dst_start_time, dst_end_month, dst_end_day_week_offset, dst_end_day_of_week, dst_end_time)

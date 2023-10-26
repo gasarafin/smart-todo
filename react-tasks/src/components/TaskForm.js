@@ -1,8 +1,9 @@
 // src/components/TaskForm.js
 
-import LocationForm from "./LocationForm";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, useRef } from "react";
 import ModalStructure from "./ModalStructure";
+import { useParams } from 'react-router-dom';
 
 function TaskForm() {
 
@@ -13,27 +14,23 @@ function TaskForm() {
     }
 
     const INITIAL_TASK = {
-            taskID: 0,
-            userID: 0,
-            taskName: "",
-            dueDate: null,
-            taskDetails: null,
-            gplaceID: null,
-            outdoors: false,
-            priorityID: 0
+        taskID: 0,
+        userID: 0,
+        taskName: "",
+        dueDate: null,
+        taskDetails: null,
+        gplaceID: null,
+        outdoors: false,
+        priorityID: 0
     };
 
     const [task, setTask] = useState(INITIAL_TASK);
 
 
-    //const { taskID } = useParams();
+    const { taskID } = useParams();
 
 
 
-    const taskID = 1;                                                 // BUG Placeholder
-
-
-    
     // Start Modal Functionality Block
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -82,19 +79,13 @@ function TaskForm() {
                     );
                 }
             })
-            .then(body => {
-                setModalInfo({
-                    title: "Add Error",
-                    body: (body == null?"This task was not added." :  body[0]),
-                    btnName: "Close",
-                    route: "/viewtasks"
-                });
-                handleShow();
-            })
             .catch(console.error);
     }
 
     function update() {
+
+        console.log(task)
+
         fetch(`http://localhost:8080/api/${taskID}`, {
             method: 'PUT',
             headers: {
@@ -121,24 +112,40 @@ function TaskForm() {
                     );
                 }
             })
-            .then(body => {
-                setModalInfo({
-                    title: "Update Error",
-                    body: (body == null?"This task was not updated." :  body[0]),
-                    btnName: "Close",
-                    route: "/viewtasks"
-                });
-                handleShow();
-            })
             .catch(console.error);
     }
 
- function handleChange(evt) {
+    const [place, setPlace] = useState({});
+
+    const autoCompleteRef = useRef();
+    const inputRef = useRef();
+    const options = {
+        componentRestrictions: {
+            country: ["us"]
+        },
+        fields: ["name", "address_components", "place_id"],
+    };
+
+    useEffect(() => {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+            inputRef.current,
+            options
+        );
+
+        autoCompleteRef.current.addListener("place_changed", async function () {
+        const placeData = await autoCompleteRef.current.getPlace() 
+            setPlace(placeData);
+            setTask((previousTask) => ({...previousTask, gplaceID: placeData.place_id}))
+
+        });
+    }, []);
+
+    function handleChange(evt) {
 
         setTask(previous => {
             const next = { ...previous };
             next[evt.target.name] = evt.target.value;
-            
+
             return next;
         });
     }
@@ -152,6 +159,8 @@ function TaskForm() {
             create();
         }
     }
+
+
 
     return (
         <>
@@ -179,20 +188,18 @@ function TaskForm() {
                     <input type="checkbox" className="form-check-input" id="haveLocation" name="haveLocation" onChange={toggleLocation} />
                 </div>
                 <div className={locationView}>
-                    <LocationForm />
-                </div>
-                {/*
-                <div className="row">
-                    <div className="form-group col-6">
-                        <label for="locationSearch">Location Search</label>
-                        <input className="form-control" id="locationSearch" name="locationSearch" />
-                    </div>
-                    <div className="form-group col-6">
-                        <label for="placeID">Place ID</label>
-                        <input className="form-control" id="placeID" name="placeID" />
+                    <div className="row">
+                        <div className="form-group col-6">
+                            <label htmlFor="placeName">Find Location</label>
+                            <input className="form-control" id="placeName" name="placeName" ref={inputRef} />
+                        </div>
+                        <div className="form-group col-6">
+                            <label htmlFor="placeID" >Place ID</label>
+                            <input className="form-control" id="placeID" name="placeID" onChange={(e) => setTask({ ...task, gplaceID: e.target.value })} value={task.gplaceID} />
+                        </div>
                     </div>
                 </div>
-*/}
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </>
