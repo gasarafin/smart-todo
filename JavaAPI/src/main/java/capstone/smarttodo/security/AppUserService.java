@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.util.List;
 
 // Stub - stubbed from fans
@@ -46,7 +47,7 @@ public class AppUserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, true, List.of("USER"));
+        AppUser appUser = new AppUser(0, username, password, true, "UTC", List.of("USER"));
 
         try {
             appUser = repository.create(appUser);
@@ -101,4 +102,6 @@ public class AppUserService implements UserDetailsService {
 
         return digits > 0 && letters > 0 && others > 0;
     }
+
+    // TODO validate ZoneID
 }

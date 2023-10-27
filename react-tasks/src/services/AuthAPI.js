@@ -58,7 +58,7 @@ export async function refreshToken() {
     }
   }
 
-  const response = await fetch(url + '/refresh-token', init);
+  const response = await fetch(url + '/refresh_token', init);
   if (response.status === 200) {
     const jwtTokenResponse = await response.json();
     localStorage.setItem('jwt_token', jwtTokenResponse.jwt_token);

@@ -10,6 +10,7 @@ import ModifyAccount from "./components/ModifyAccount";
 import NotFound from "./components/NotFound";
 import NotImplemented from "./components/NotImplemented";
 import NotAllowed from "./components/NotAllowed";
+import NotAuthorized from './components/NotAuthorized';
 import SignUp from "./components/SignUp";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
@@ -45,9 +46,6 @@ function App() {
     handleLoggedIn(user) {
       setUser(user);
       setTimeout(resetUser, TIMEOUT_MILLISECONDS);
-
-console.log(user)
-
     },
     hasAuthority(authority) {
       return user?.authorities.includes(authority);
@@ -62,8 +60,7 @@ console.log(user)
     return null;
   }
 
-  console.log("in app.js")
-console.log(auth)
+
 
 
   const renderWithAuthority = (Component, ...authorities) => {
@@ -72,7 +69,7 @@ console.log(auth)
         return <Component />;
       }
     }
-    return <NotAllowed />;
+    return <NotAuthorized />;
   };
 
 
@@ -84,14 +81,13 @@ console.log(auth)
           <Routes>
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/account" element={<ModifyAccount />} />
+            <Route path="/account" element={renderWithAuthority(ModifyAccount, "USER")} />
             <Route path="/404" element={<NotFound />} />
             <Route path="/501" element={<NotImplemented />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/addtask" element={<TaskForm />} />
-            <Route path="/updatetask/:taskID" element={<TaskForm />} />
-  {/*         <Route path="/viewtasks" element={renderWithAuthority(TaskList, "ADMIN")} />   */}
-            <Route path="/viewtasks" element={<TaskList />} />
+            <Route path="/addtask" element={renderWithAuthority(TaskForm, "USER")} />
+            <Route path="/updatetask/:taskID" element={renderWithAuthority(TaskForm, "USER")} />
+           <Route path="/viewtasks" element={renderWithAuthority(TaskList, "USER")} />   
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

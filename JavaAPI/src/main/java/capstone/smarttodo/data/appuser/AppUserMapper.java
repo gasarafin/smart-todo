@@ -23,6 +23,7 @@ public class AppUserMapper implements RowMapper<AppUser> {
                 rs.getString("username"),
                 rs.getString("password_hash"),
                 rs.getBoolean("enabled"),
+                rs.getString("zone_id"),
                 roles);
     }
 }

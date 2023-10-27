@@ -10,7 +10,7 @@ const LocationForm = props => {
         componentRestrictions: {
             country: ["us"]
         },
-        fields: ["name", "address_components", "place_id"],
+        fields: ["name", "place_id"],
     };
 
     useEffect(() => {
@@ -22,6 +22,10 @@ const LocationForm = props => {
         autoCompleteRef.current.addListener("place_changed", async function () {
             const placeData = await autoCompleteRef.current.getPlace()
             setTask((previousTask) => ({ ...previousTask, gplaceID: placeData.place_id }))
+
+
+            console.log(placeData)
+
 
         });
     }, []);

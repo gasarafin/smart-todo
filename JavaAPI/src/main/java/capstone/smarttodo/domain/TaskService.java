@@ -51,6 +51,12 @@ public class TaskService {
         return results;
     }
 
+    public Result<Integer> findUserID(String username) {
+        Result<Integer> results = new Result<>();
+        results.setPayload(repository.findUserID(username));
+        return results;
+    }
+
     public <T> Result<T> update(Task task) {
         Result<T> results = new Result<>();
         repository.update(task);

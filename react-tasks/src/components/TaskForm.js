@@ -1,12 +1,38 @@
 // src/components/TaskForm.js
 
 
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import ModalStructure from "./ModalStructure";
 import { useParams } from 'react-router-dom';
 import LocationForm from "./LocationForm";
 
+
+import AuthContext from "../contexts/AuthContext";
+
 function TaskForm() {
+
+    const {user:{username}} = useContext(AuthContext)
+
+
+
+
+
+    useEffect(() => {
+        const fetchUserID = async () => {
+            const response = fetch(`http://localhost:8080/api/user/${username}`);
+            if (response.ok) {
+                const user_id = await response.json()
+                setTask((previousTask) => ({ ...previousTask, userID:   user_id }))
+
+            } else {
+
+            }
+        };
+        fetchUserID();
+
+    });
+
+
 
     const INITIAL_TASK = {
         taskID: 0,

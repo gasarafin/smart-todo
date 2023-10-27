@@ -42,6 +42,17 @@ public class TaskController {
         return new ResponseEntity<>(result.getErrorMessages(), result.getStatus());
     }
 
+    @GetMapping("/user/{userName}")
+    public ResponseEntity<?> findUserID(@PathVariable String userName) {
+        Result<?> result = service.findUserID(userName);
+
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), result.getStatus());
+        }
+
+        return new ResponseEntity<>(result.getErrorMessages(), result.getStatus());
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Task task) {
         Result<?> result = service.create(task);

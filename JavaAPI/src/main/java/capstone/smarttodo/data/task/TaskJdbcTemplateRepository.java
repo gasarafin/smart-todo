@@ -87,6 +87,24 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
 //        jdbcTemplate.update(sql, taskID);
 //    }
 
+    public int findUserID(String username) {
+
+        final String sql = "select app_user_id from app_user where username = ?;";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, Integer.class, username);
+        } catch (NullPointerException n) {
+            return 0;  //ATTN - I should probably handle this exception better.
+        }
+    }
+
+//    public void setInitialPriority(int taskID) {        // TODO needs better return values
+//        final String sql = "insert into task_priority (task_id)"
+//                + "values (?, null);";
+//
+//        jdbcTemplate.update(sql, taskID);
+//    }
+
     public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
         final String sql = "replace into task_priority values (?, ?);";
 

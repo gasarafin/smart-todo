@@ -17,6 +17,7 @@ public class AppUser implements UserDetails {
     private final String username;
     private final String password;
     private final boolean enabled;
+    private final ZoneId userTZ;
     private final Collection<GrantedAuthority> authorities;
 
     /**
@@ -25,13 +26,15 @@ public class AppUser implements UserDetails {
      * @param username account username
      * @param password account password
      * @param enabled is account enabled
+     * @param userTZ timezone for user
      * @param roles what access level does the user have
      */
-    public AppUser(int appUserId, String username, String password, boolean enabled, List<String> roles) {
+    public AppUser(int appUserId, String username, String password, boolean enabled, String userTZ, List<String> roles) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
+        this.userTZ = ZoneId.of(userTZ);        // TODO handle ZoneID exception (should a non-valid one make it here)
         this.authorities = convertRolesToAuthorities(roles);
     }
 
@@ -82,6 +85,16 @@ public class AppUser implements UserDetails {
 
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
+    }
+
+    /**
+     * Gives the users timezone.
+     *
+     * @return ZoneID - usage example:
+     *                  UTCTaskTime.withZoneSameInstant(userTZ);
+     */
+    public ZoneId getUserTZ() {
+        return userTZ;
     }
 }
 

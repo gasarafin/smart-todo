@@ -11,11 +11,11 @@ function TaskList() {
 
 
    // const  auth  = useContext(AuthContext);
-const {user} = useContext(AuthContext)
+const {user:{username}} = useContext(AuthContext)
 
-    console.log(user)
 
-    const userName = 'john@smith.com'                                       // BUG Placeholder for JWT Token
+
+   // const userName = username                                      // BUG Placeholder for JWT Token
 
 
 
@@ -23,7 +23,7 @@ const {user} = useContext(AuthContext)
     
     useEffect(() => {
         const fetchTasks = async () => {
-            const response = await fetch(`http://localhost:8080/api/usertask/${userName}`);
+            const response = await fetch(`http://localhost:8080/api/usertask/${username}`);
             if (response.ok) {
                 setTasks(await response.json());
             } else {
@@ -32,7 +32,7 @@ const {user} = useContext(AuthContext)
         };
         fetchTasks();
 
-    }, []);
+    });
 
 
     return (
