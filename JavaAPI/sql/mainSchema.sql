@@ -42,19 +42,10 @@ create table task (
     due_date datetime,
     is_outdoors bit not null default(1),
     google_places_id varchar(50),
-    task_details text,
-	constraint fk_app_user_id
-		foreign key (app_user_id)
-		references app_user (app_user_id)
-);
-
-create table location (
-    google_places_id varchar(50),
-    google_places_addr varchar(100),
-    location_lat float,
-    location_long float,
-	constraint pk_google_places_id
-		primary key (google_places_id)
+	google_places_name varchar(50),
+    google_places_lat double,
+    google_places_long double,
+    task_details text
 );
 
 create table task_priority (
@@ -84,8 +75,6 @@ insert into app_user_role
     values
     (1, 1),
     (2, 1);
-    
-insert into location (google_places_id) values ('123ergy');
     
 insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_id, task_details) values
 (1, 'Task 1', NULL, 0, NULL, NULL),

@@ -32,7 +32,7 @@ const {user:{username}} = useContext(AuthContext)
         };
         fetchTasks();
 
-    });
+    }, [username]);
 
 
     return (

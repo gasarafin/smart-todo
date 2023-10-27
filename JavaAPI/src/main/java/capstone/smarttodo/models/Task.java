@@ -12,25 +12,16 @@ public class Task {
     private LocalDateTime dueDate;
     private boolean isOutdoors;
     private String gPlaceID;
+    private String gPlaceName;
+    private double gPlaceLat;
+    private double gPlaceLong;
     private String taskDetails;
 
     public Task() {
         this.taskID = -1;
     }
 
-    /**
-     * Constructor for retrieving from DB
-     *
-     * @param taskID auto-assigned by SQL
-     * @param userID unique user ID of task maker
-     * @param taskPriority unique user ID of task maker
-     * @param taskName required user field
-     * @param dueDate datetime variable (user optional)
-     * @param isOutdoors is the take an outdoor task? (user required)
-     * @param gPlaceID unique ID set by google places API (user optional)
-     * @param taskDetails user details about task (user optional)
-     */
-    public Task(int taskID, int userID, int taskPriority, String taskName, LocalDateTime dueDate, boolean isOutdoors, String gPlaceID, String taskDetails) {
+    public Task(int taskID, int userID, int taskPriority, String taskName, LocalDateTime dueDate, boolean isOutdoors, String gPlaceID, String gPlaceName, double gPlaceLat, double gPlaceLong, String taskDetails) {
         this.taskID = taskID;
         this.userID = userID;
         this.taskPriority = taskPriority;
@@ -38,21 +29,13 @@ public class Task {
         this.dueDate = dueDate;
         this.isOutdoors = isOutdoors;
         this.gPlaceID = gPlaceID;
+        this.gPlaceName = gPlaceName;
+        this.gPlaceLat = gPlaceLat;
+        this.gPlaceLong = gPlaceLong;
         this.taskDetails = taskDetails;
     }
 
-    /**
-     * Full constructor for creating user task.
-     *
-     * @param userID unique user ID of task maker
-     * @param taskName required user field
-     * @param taskPriority unique user ID of task maker
-     * @param dueDate datetime variable (user optional)
-     * @param isOutdoors is the take an outdoor task? (user required)
-     * @param gPlaceID unique ID set by google places API (user optional)
-     * @param taskDetails user details about task (user optional)
-     */
-    public Task(int userID, int taskPriority, String taskName, LocalDateTime dueDate, boolean isOutdoors, String gPlaceID, String taskDetails) {
+    public Task(int userID, int taskPriority, String taskName, LocalDateTime dueDate, boolean isOutdoors, String gPlaceID, String gPlaceName, double gPlaceLat, double gPlaceLong, String taskDetails) {
         this.taskID = -1;
         this.userID = userID;
         this.taskPriority = taskPriority;
@@ -60,16 +43,12 @@ public class Task {
         this.dueDate = dueDate;
         this.isOutdoors = isOutdoors;
         this.gPlaceID = gPlaceID;
+        this.gPlaceName = gPlaceName;
+        this.gPlaceLat = gPlaceLat;
+        this.gPlaceLong = gPlaceLong;
         this.taskDetails = taskDetails;
     }
 
-    /**
-     * Minimal constructor for creating user task. There are the minimally required fields.
-     *
-     * @param taskName required user field
-     * @param userID unique user ID of task maker
-     * @param isOutdoors is the take an outdoor task? (user required)
-     */
     public Task(int userID, String taskName, boolean isOutdoors) {
         this.taskID = -1;
         this.userID = userID;
@@ -138,5 +117,29 @@ public class Task {
 
     public void setTaskPriority(int taskPriority) {
         this.taskPriority = taskPriority;
+    }
+
+    public String getgPlaceName() {
+        return gPlaceName;
+    }
+
+    public void setgPlaceName(String gPlaceName) {
+        this.gPlaceName = gPlaceName;
+    }
+
+    public double getgPlaceLat() {
+        return gPlaceLat;
+    }
+
+    public void setgPlaceLat(double gPlaceLat) {
+        this.gPlaceLat = gPlaceLat;
+    }
+
+    public double getgPlaceLong() {
+        return gPlaceLong;
+    }
+
+    public void setgPlaceLong(double gPlaceLong) {
+        this.gPlaceLong = gPlaceLong;
     }
 }

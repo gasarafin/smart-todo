@@ -12,10 +12,6 @@ import { Link } from 'react-router-dom';
 const Task = props => {
   const columns = useMemo(
     () => [
-      // {
-      //   accessorKey: 'taskPriority',
-      //   header: 'Rank',
-      // },
       {
         accessorKey: 'taskName',
         header: 'Task Name',
@@ -29,7 +25,7 @@ const Task = props => {
         header: 'Task Details',
       },
       {
-        accessorKey: 'gplaceID',
+        accessorKey: 'gPlaceName',
         header: 'Task Location',
       },
       {
@@ -40,10 +36,6 @@ const Task = props => {
         accessorKey: 'taskWeather',
         header: 'Task Weather',
       },
-      // {
-      //   accessorKey: 'taskID',
-      //   header: 'Task ID',
-      // },
     ], [],
   );
 
@@ -97,42 +89,40 @@ const Task = props => {
   function deleteTask(taskID) {
 
     fetch(`http://localhost:8080/api/${taskID}`, {
-        method: 'DELETE'
+      method: 'DELETE'
     })
-        .then(res => {
-            if (res.ok) {
-              setModalInfo({
-                title: "Success",
-                body: "Task Deleted.",
-                btnName: "Close",
-                route: "/viewtasks"
-              });
-              handleShow();
-            } else if (res.status === 400) {
-                res.json();
-            } else if (res.status === 404) {
-                console.log('Task ID not found.');
-            } else {
-                return Promise.reject(
-                    new Error(`Unexpected status code: ${res.status}`)
-                );
-            }
-        })
-        .catch(console.error);
-}
+      .then(res => {
+        if (res.ok) {
+          setModalInfo({
+            title: "Success",
+            body: "Task Deleted.",
+            btnName: "Close",
+            route: "/viewtasks"
+          });
+          handleShow();
+        } else if (res.status === 400) {
+          res.json();
+        } else if (res.status === 404) {
+          console.log('Task ID not found.');
+        } else {
+          return Promise.reject(
+            new Error(`Unexpected status code: ${res.status}`)
+          );
+        }
+      })
+      .catch(console.error);
+  }
 
-// Need to modify ModalStructure for a second button that only appears sometimes
-// function deleteConfirm(taskInfo) {
-//   setModalInfo({
-//     title: "Delete Confirmation.",
-//     body: `Are you sure you want to delete ${taskInfo.taskName} from your task list?`,
-//     btnName: "Close",
-//     route: "/viewtasks"
-//   });
-//   handleShow();
-// }
-
-
+  // Need to modify ModalStructure for a second button that only appears sometimes
+  // function deleteConfirm(taskInfo) {
+  //   setModalInfo({
+  //     title: "Delete Confirmation.",
+  //     body: `Are you sure you want to delete ${taskInfo.taskName} from your task list?`,
+  //     btnName: "Close",
+  //     route: "/viewtasks"
+  //   });
+  //   handleShow();
+  // }
 
   return (
     <>
@@ -142,73 +132,44 @@ const Task = props => {
         autoResetPageIndex={false}
         columns={columns}
         data={tasks}
-
         enableRowNumbers
         rowNumberMode="static"
         enableRowOrdering
         enableSorting={false}
-
         enableColumnFilters={false}
-
-
-
-
         enableRowActions
+
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
+
             <IconButton
               color="secondary"
               onClick={() => {
-
-
                 table.setEditingRow(row);
-
-
-
               }}
             >
-
-
-
-<Link to={`/updatetask/${row.original.taskID}`} >
-<EditIcon />
-                    </Link>
-
-
-
-              
+              <Link to={`/updatetask/${row.original.taskID}`} >
+                <EditIcon />
+              </Link>
             </IconButton>
+
             <IconButton
               color="error"
               onClick={() => {
                 deleteTask(row.original.taskID)
-
                 tasks.splice(row.index, 1);
 
                 setTasks([...tasks.map((task, index) => ({
                   ...task,
                   taskPriority: index + 1
                 }))]);
-
-
-              }
-              }
+              }}
             >
               <DeleteIcon />
             </IconButton>
+
           </Box>
         )}
-
-
-
-
-
-
-
-
-
-
-
 
         renderDetailPanel={({ row }) => (
           <Box
@@ -223,18 +184,6 @@ const Task = props => {
           </Box>
         )}
 
-
-
-
-
-
-
-
-
-
-
-
-
         renderTopToolbarCustomActions={({ table }) => (
           <Box sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}>
             <Button
@@ -247,19 +196,6 @@ const Task = props => {
             </Button>
           </Box>
         )}
-
-
-
-
-
-
-
-
-
-
-
-
-        
 
         muiTableBodyRowDragHandleProps={({ table }) => ({
           onDragEnd: () => {
@@ -277,9 +213,9 @@ const Task = props => {
             }
           },
         })}
-/>
-</>
-      );
+      />
+    </>
+  );
 };
 
 export default Task;

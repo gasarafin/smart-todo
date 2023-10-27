@@ -31,13 +31,15 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 select
                     t.task_id,
                     t.app_user_id,
+                    tp.task_priority,
                     t.task_name,
                     t.due_date,
                     t.is_outdoors,
                     t.google_places_id,
-                    t.task_details,
-                    tp.task_priority,
-                    au.zone_id
+                    t.google_places_name,
+                    t.google_places_lat,
+                    t.google_places_long,
+                    t.task_details
                 from task t
                 left join task_priority tp on t.task_id=tp.task_id
                 inner join app_user au on t.app_user_id=au.app_user_id
@@ -67,8 +69,10 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                     t.due_date,
                     t.is_outdoors,
                     t.google_places_id,
-                    t.task_details,
-                    au.zone_id
+                    t.google_places_name,
+                    t.google_places_lat,
+                    t.google_places_long,
+                    t.task_details
                 from task t
                 left join task_priority tp on t.task_id=tp.task_id
                 inner join app_user au on t.app_user_id=au.app_user_id
@@ -129,8 +133,8 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
     @Override
     public boolean create(Task task) {        // TODO needs better return values
 
-        final String sql = "insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_id, task_details)"
-                + "values (?, ?, ?, ?, ?, ?);";
+        final String sql = "insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_id, google_places_name, google_places_lat, google_places_long, task_details)"
+                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -140,7 +144,10 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
             ps.setTimestamp(3, (task.getDueDate() == null ? null : Timestamp.valueOf(task.getDueDate())));
             ps.setBoolean(4, task.isOutdoors());
             ps.setString(5, task.getGPlaceID());
-            ps.setString(6, task.getTaskDetails());
+            ps.setString(6, task.getgPlaceName());
+            ps.setDouble(7, task.getgPlaceLat());
+            ps.setDouble(8, task.getgPlaceLong());
+            ps.setString(9, task.getTaskDetails());
             return ps;
         }, keyHolder);
 
@@ -159,6 +166,9 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                     due_date = ?,
                     is_outdoors = ?,
                     google_places_id = ?,
+                    google_places_name = ?,
+                    google_places_lat = ?,
+                    google_places_long = ?,
                     task_details = ?
                 where task_id = ?;
                 """;
@@ -168,6 +178,9 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 task.getDueDate() == null ? null : Timestamp.valueOf(task.getDueDate()),
                 task.isOutdoors(),
                 task.getGPlaceID(),
+                task.getgPlaceName(),
+                task.getgPlaceLat(),
+                task.getgPlaceLong(),
                 task.getTaskDetails(),
                 task.getTaskID());
 

@@ -19,7 +19,7 @@ function TaskForm() {
 
     useEffect(() => {
         const fetchUserID = async () => {
-            const response = fetch(`http://localhost:8080/api/user/${username}`);
+            const response = await fetch(`http://localhost:8080/api/user/${username}`);
             if (response.ok) {
                 const user_id = await response.json()
                 setTask((previousTask) => ({ ...previousTask, userID:   user_id }))
@@ -42,7 +42,11 @@ function TaskForm() {
         taskDetails: null,
         gplaceID: null,
         outdoors: false,
-        priorityID: 0
+        priorityID: 0,
+        gPlaceName: "",
+        gPlaceLat: 0.0,
+        gPlaceLong: 0.0
+        
     };
 
     const BASE_MODAL = {

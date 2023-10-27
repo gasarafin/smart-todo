@@ -21,6 +21,9 @@ public class TaskMapper implements RowMapper<Task> {
                         ? null : rs.getObject("due_date", LocalDateTime.class),
                 rs.getBoolean("is_outdoors"),
                 rs.getString("google_places_id"),
+                rs.getString("google_places_name"),
+                rs.getDouble("google_places_lat"),
+                rs.getDouble("google_places_long"),
                 rs.getString("task_details")
         );
     }
