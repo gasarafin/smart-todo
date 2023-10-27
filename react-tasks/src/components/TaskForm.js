@@ -1,17 +1,12 @@
 // src/components/TaskForm.js
 
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import ModalStructure from "./ModalStructure";
 import { useParams } from 'react-router-dom';
+import LocationForm from "./LocationForm";
 
 function TaskForm() {
-
-    const [locationView, setLocationView] = useState("d-none");
-
-    const toggleLocation = (ev) => {
-        setLocationView(ev.target.checked ? "" : "d-none");
-    }
 
     const INITIAL_TASK = {
         taskID: 0,
@@ -24,26 +19,26 @@ function TaskForm() {
         priorityID: 0
     };
 
-    const [task, setTask] = useState(INITIAL_TASK);
-
-
-    const { taskID } = useParams();
-
-
-
-    // Start Modal Functionality Block
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     const BASE_MODAL = {
         title: "Success",
         body: "Error - Should not see this body.",
         btnName: "Close",
         route: "/viewtasks"
     }
+
+    const [locationView, setLocationView] = useState("d-none");
+    const [task, setTask] = useState(INITIAL_TASK);
     const [modalInfo, setModalInfo] = useState(BASE_MODAL);
-    // End Modal Functionality Block
+    const [show, setShow] = useState(false);
+
+    const { taskID } = useParams();
+
+    const toggleLocation = (ev) => {
+        setLocationView(ev.target.checked ? "" : "d-none");
+    }
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (taskID > 0) {
@@ -53,6 +48,7 @@ function TaskForm() {
                 .catch(console.error);
         }
     }, [taskID]);
+
 
     function create() {
         fetch(`http://localhost:8080/api`, {
@@ -115,33 +111,8 @@ function TaskForm() {
             .catch(console.error);
     }
 
-    const [place, setPlace] = useState({});
-
-    const autoCompleteRef = useRef();
-    const inputRef = useRef();
-    const options = {
-        componentRestrictions: {
-            country: ["us"]
-        },
-        fields: ["name", "address_components", "place_id"],
-    };
-
-    useEffect(() => {
-        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-            inputRef.current,
-            options
-        );
-
-        autoCompleteRef.current.addListener("place_changed", async function () {
-        const placeData = await autoCompleteRef.current.getPlace() 
-            setPlace(placeData);
-            setTask((previousTask) => ({...previousTask, gplaceID: placeData.place_id}))
-
-        });
-    }, []);
 
     function handleChange(evt) {
-
         setTask(previous => {
             const next = { ...previous };
             next[evt.target.name] = evt.target.value;
@@ -159,7 +130,6 @@ function TaskForm() {
             create();
         }
     }
-
 
 
     return (
@@ -188,16 +158,7 @@ function TaskForm() {
                     <input type="checkbox" className="form-check-input" id="haveLocation" name="haveLocation" onChange={toggleLocation} />
                 </div>
                 <div className={locationView}>
-                    <div className="row">
-                        <div className="form-group col-6">
-                            <label htmlFor="placeName">Find Location</label>
-                            <input className="form-control" id="placeName" name="placeName" ref={inputRef} />
-                        </div>
-                        <div className="form-group col-6">
-                            <label htmlFor="placeID" >Place ID</label>
-                            <input className="form-control" id="placeID" name="placeID" onChange={(e) => setTask({ ...task, gplaceID: e.target.value })} value={task.gplaceID} />
-                        </div>
-                    </div>
+                    <LocationForm functions={[task, setTask]} />
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -205,4 +166,5 @@ function TaskForm() {
         </>
     );
 };
+
 export default TaskForm;

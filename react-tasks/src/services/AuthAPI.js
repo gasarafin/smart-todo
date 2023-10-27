@@ -1,4 +1,5 @@
 const url = process.env.REACT_APP_API_URL;
+// BUG gotta fix this const before deploy
 
 // TODO - clean up - from messy source
 

@@ -1,7 +1,8 @@
 // src/components/TaskList.js
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Task from "./Task";
+import AuthContext from "../contexts/AuthContext";
 
 
 function TaskList() {
@@ -9,7 +10,10 @@ function TaskList() {
 
 
 
+   // const  auth  = useContext(AuthContext);
+const {user} = useContext(AuthContext)
 
+    console.log(user)
 
     const userName = 'john@smith.com'                                       // BUG Placeholder for JWT Token
 

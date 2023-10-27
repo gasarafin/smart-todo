@@ -89,6 +89,23 @@ create table task_priority (
         on delete cascade
 );
 
+
+
+create table geo_location (
+    google_places_id varchar(50),
+    location_lat smallint,
+    location_long smallint
+    -- wip
+ --   constraint pk_task_priority_id
+ --       primary key (task_id),
+--	constraint fk_task_id
+--		foreign key (task_id)
+--		references task(task_id)
+ --       on delete cascade
+);
+
+
+
 insert into dst_info (dst_descriptor, dst_start_month, dst_start_day_week_offset, dst_start_day_of_week, dst_start_time, dst_end_month, dst_end_day_week_offset, dst_end_day_of_week, dst_end_time)
     values
     ('Standard USA DST', 3, 2, 'Sunday', '02:00:00', 11, 1, 'Sunday', '02:00:00');
