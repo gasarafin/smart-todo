@@ -11,6 +11,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 
 import ModalStructure from "./ModalStructure";
 import WeatherTable from './WeatherCaller';
+import LocationInfo from './LocationInfo';
 
 const Task = props => {
   const columns = useMemo(
@@ -162,7 +163,7 @@ const Task = props => {
             <Typography></Typography>
             {/* {row.original.gplaceID === null ? "No Commute Info" : <CommuteCaller originLat={36.1716} originLong={115.1391} destLat={row.original.gPlaceLat} destLong={row.original.gPlaceLong} />} // TODO clean this up */}
             {row.original.gPlaceLat == 0.0 ? "No Weather Info" : <WeatherTable lat={row.original.gPlaceLat} long={row.original.gPlaceLong} />}
-            {/* {row.original.gplaceID === null ? "No Location Info" : <LocationInfo gplaceID={row.original.gplaceID} />}  // TODO clean this up */}
+            {<LocationInfo gplaceID={row.original.gplaceID} />}
 
           </Box>
         )}
