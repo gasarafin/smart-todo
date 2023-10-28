@@ -2,9 +2,7 @@ package capstone.smarttodo.models;
 
 import java.time.LocalDateTime;
 
-// Draft
 public class Task {
-
     private final int taskID;
     private int userID;
     private int taskPriority;

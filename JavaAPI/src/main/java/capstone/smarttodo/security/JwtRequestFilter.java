@@ -13,13 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-// Stub - stubbed from fans
 public class JwtRequestFilter extends BasicAuthenticationFilter {
 
     private final JwtConverter converter;
 
     public JwtRequestFilter(AuthenticationManager authenticationManager, JwtConverter converter) {
-        super(authenticationManager); // 1. Must satisfy the super class.
+        super(authenticationManager);
         this.converter = converter;
     }
 
@@ -28,17 +27,14 @@ public class JwtRequestFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
 
-        // 2. Read the Authorization value from the request.
         String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Bearer ")) {
 
-            // 3. The value looks okay, confirm it with JwtConverter.
             UserDetails user = converter.getUserFromToken(authorization);
             if (user == null) {
                 response.setStatus(403); // Forbidden
             } else {
 
-                // 4. Confirmed. Set auth for this single request.
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         user.getUsername(), null, user.getAuthorities());
 
@@ -46,7 +42,6 @@ public class JwtRequestFilter extends BasicAuthenticationFilter {
             }
         }
 
-        // 5. Keep the chain going.
         chain.doFilter(request, response);
     }
 }

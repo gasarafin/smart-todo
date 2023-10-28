@@ -8,8 +8,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-// Stub - stubbed from fans
-
 @ControllerAdvice
 public class GlobalExHandler {
 

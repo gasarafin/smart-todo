@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { register } from "../services/AuthAPI";
-
 import ValidationSummary from "./ValidationSummary";
-
-// TODO - clean up - from messy source
 
 function SignUp() {
   const [errors, setErrors] = useState([]);
@@ -104,6 +102,6 @@ function SignUp() {
       )}
     </div>
   );
-}
+};
 
 export default SignUp;

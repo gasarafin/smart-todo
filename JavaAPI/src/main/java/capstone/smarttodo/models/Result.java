@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-// Draft - modified slightly from fans
 public class Result<T> {
     private final ArrayList<String> errorMessages = new ArrayList<>();
     private HttpStatus status = HttpStatus.OK;
     private T payload;
-
 
     public boolean isSuccess() {
         return status == HttpStatus.OK;

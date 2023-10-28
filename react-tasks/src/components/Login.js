@@ -2,8 +2,8 @@
 
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../services/AuthAPI";
 
+import { login } from "../services/AuthAPI";
 import AuthContext from "../contexts/AuthContext";
 import ValidationSummary from "./ValidationSummary";
 
@@ -16,7 +16,7 @@ function Login() {
 
     const { handleLoggedIn } = useContext(AuthContext);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -78,6 +78,6 @@ function Login() {
             </form>
         </div>
     );
-}
+};
 
 export default Login;

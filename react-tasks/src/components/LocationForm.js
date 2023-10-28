@@ -1,3 +1,5 @@
+// src/components/LocationForm.js
+
 import { useRef, useEffect } from "react";
 
 const LocationForm = props => {
@@ -5,7 +7,7 @@ const LocationForm = props => {
 
     const autoCompleteRef = useRef();
     const inputRef = useRef();
-
+    
     const options = {
         componentRestrictions: {
             country: ["us"]
@@ -20,46 +22,41 @@ const LocationForm = props => {
         );
 
         autoCompleteRef.current.addListener("place_changed", async function () {
-            const placeData = await autoCompleteRef.current.getPlace()
-            setTask((previousTask) => ({ 
+            const placeData = await autoCompleteRef.current.getPlace();
+            setTask((previousTask) => ({
                 ...previousTask, gplaceID: placeData.place_id,
                 gPlaceName: placeData.name,
                 gPlaceLat: placeData.geometry.location.lat(),
                 gPlaceLong: placeData.geometry.location.lng(),
-            
-            }))
 
-
-            console.log(placeData)
-
-
+            }));
         });
-    }, []);
+    }, []);  // BUG What do I want to use here?
 
     return (
         <>
-<div className="form-group">
+            <div className="form-group">
                 <label htmlFor="findLocation">Find Location</label>
                 <input className="form-control" id="findLocation" name="findLocation" ref={inputRef} />
             </div>
             <div className="row">
                 <div className="form-group col-6">
                     <label htmlFor="placeName">Place</label>
-                    <input className="form-control" id="placeName" name="placeName" value={task.gPlaceName} />
+                    <input className="form-control" id="placeName" name="placeName" value={task.gPlaceName} readOnly />
                 </div>
                 <div className="form-group col-6">
                     <label htmlFor="placeID" >Place ID</label>
-                    <input className="form-control" id="placeID" name="placeID" value={task.gplaceID} />
+                    <input className="form-control" id="placeID" name="placeID" value={task.gplaceID} readOnly />
                 </div>
             </div>
             <div className="row">
                 <div className="form-group col-6">
                     <label htmlFor="placeLat">Latitude</label>
-                    <input className="form-control" id="placeLat" name="placeLat" value={task.gPlaceLat} />
+                    <input className="form-control" id="placeLat" name="placeLat" value={task.gPlaceLat} readOnly />
                 </div>
                 <div className="form-group col-6">
                     <label htmlFor="placeLng" >Longitude</label>
-                    <input className="form-control" id="placeLng" name="placeLng" value={task.gPlaceLong} />
+                    <input className="form-control" id="placeLng" name="placeLng" value={task.gPlaceLong} readOnly />
                 </div>
             </div>
         </>

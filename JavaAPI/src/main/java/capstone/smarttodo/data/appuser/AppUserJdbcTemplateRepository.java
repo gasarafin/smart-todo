@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
-// Draft
 @Repository
 public class AppUserJdbcTemplateRepository implements AppUserRepository {
 
@@ -37,7 +36,6 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
                 .findFirst().orElse(null);
     }
 
-
     @Transactional
     @Override
     public AppUser create(AppUser user) {
@@ -58,7 +56,6 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         }
 
         user.setAppUserId(keyHolder.getKey().intValue());
-
         updateRoles(user);
 
         return user;
@@ -105,6 +102,7 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), username);
     }
 
+    // ATTN make this disappear
     public boolean delete(int userID) {
         // Notes    For this to work, I need to do the following:
         //          1. Delete all tasks_priority data for user
@@ -114,4 +112,3 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         return true;
     }
 }
-

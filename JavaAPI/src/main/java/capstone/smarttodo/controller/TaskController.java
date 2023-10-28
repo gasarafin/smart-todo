@@ -3,12 +3,12 @@ package capstone.smarttodo.controller;
 import capstone.smarttodo.domain.TaskService;
 import capstone.smarttodo.models.Result;
 import capstone.smarttodo.models.Task;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api")
@@ -85,7 +85,6 @@ public class TaskController {
 
         return new ResponseEntity<>(result.getErrorMessages(), result.getStatus());
     }
-
 
     @PutMapping("/priority/list")
     public ResponseEntity<?> updatePriorityList(@RequestBody List<Task> sortedTasks) {

@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// Draft
 public class AppUser implements UserDetails {
 
     private int appUserId;
@@ -21,20 +20,19 @@ public class AppUser implements UserDetails {
     private final Collection<GrantedAuthority> authorities;
 
     /**
-     *
      * @param appUserId unique id for every username
-     * @param username account username
-     * @param password account password
-     * @param enabled is account enabled
-     * @param userTZ timezone for user
-     * @param roles what access level does the user have
+     * @param username  account username
+     * @param password  account password
+     * @param enabled   is account enabled
+     * @param userTZ    timezone for user
+     * @param roles     what access level does the user have
      */
     public AppUser(int appUserId, String username, String password, boolean enabled, String userTZ, List<String> roles) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
-        this.userTZ = ZoneId.of(userTZ);        // TODO handle ZoneID exception (should a non-valid one make it here)
+        this.userTZ = ZoneId.of(userTZ);
         this.authorities = convertRolesToAuthorities(roles);
     }
 
@@ -91,10 +89,9 @@ public class AppUser implements UserDetails {
      * Gives the users timezone.
      *
      * @return ZoneID - usage example:
-     *                  UTCTaskTime.withZoneSameInstant(userTZ);
+     * UTCTaskTime.withZoneSameInstant(userTZ);
      */
     public ZoneId getUserTZ() {
         return userTZ;
     }
 }
-

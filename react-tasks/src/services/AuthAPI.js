@@ -1,10 +1,8 @@
-const url = process.env.REACT_APP_API_URL;
-// BUG gotta fix this const before deploy
+// src/services/AuthAPI.js
 
-// TODO - clean up - from messy source
+const url = process.env.REACT_APP_API_URL;
 
 export async function login(credentials) {
-
   const init = {
     method: 'POST',
     headers: {
@@ -15,14 +13,15 @@ export async function login(credentials) {
   };
 
   const response = await fetch(url + '/authenticate', init);
+
   if (response.status === 200) {
     const jwtTokenResponse = await response.json();
     localStorage.setItem('jwt_token', jwtTokenResponse.jwt_token);
     return makeUserFromJwt(jwtTokenResponse.jwt_token);
   } else {
     return Promise.reject('Unauthorized.');
-  }
-}
+  };
+};
 
 export async function register(credentials) {
   const init = {
@@ -35,16 +34,16 @@ export async function register(credentials) {
   };
 
   const response = await fetch(url + '/create_account', init);
+
   if (response.status === 400) {
     const result = response.json();
     return { errors: result.messages };
   } else if (response.status !== 201) {
     return Promise.reject("Unexpected error, oops.");
-  }
-}
+  };
+};
 
 export async function refreshToken() {
-
   const jwtToken = localStorage.getItem('jwt_token');
   if (!jwtToken) {
     return Promise.reject('Unauthorized.')
@@ -56,9 +55,10 @@ export async function refreshToken() {
       'Accept': 'application/json',
       'Authorization': 'Bearer ' + jwtToken
     }
-  }
+  };
 
   const response = await fetch(url + '/refresh_token', init);
+
   if (response.status === 200) {
     const jwtTokenResponse = await response.json();
     localStorage.setItem('jwt_token', jwtTokenResponse.jwt_token);
@@ -66,12 +66,12 @@ export async function refreshToken() {
   } else {
     localStorage.removeItem('jwt_token');
     return Promise.reject('Unauthorized.');
-  }
-}
+  };
+};
 
 export function logout() {
   localStorage.removeItem('jwt_token');
-}
+};
 
 function makeUserFromJwt(jwtToken) {
   const jwtParts = jwtToken.split('.');
@@ -82,5 +82,5 @@ function makeUserFromJwt(jwtToken) {
       username: decodedToken.sub,
       authorities: decodedToken.authorities
     };
-  }
-}
+  };
+};

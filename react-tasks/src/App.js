@@ -1,3 +1,5 @@
+// src/App.js
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState, useCallback } from "react";
 
@@ -8,8 +10,6 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import ModifyAccount from "./components/ModifyAccount";
 import NotFound from "./components/NotFound";
-import NotImplemented from "./components/NotImplemented";
-import NotAllowed from "./components/NotAllowed";
 import NotAuthorized from './components/NotAuthorized';
 import SignUp from "./components/SignUp";
 import TaskForm from "./components/TaskForm";
@@ -40,7 +40,6 @@ function App() {
     resetUser();
   }, [resetUser]);
 
-
   const auth = {
     user: user,
     handleLoggedIn(user) {
@@ -58,20 +57,16 @@ function App() {
 
   if (!initialized) {
     return null;
-  }
-
-
-
+  };
 
   const renderWithAuthority = (Component, ...authorities) => {
     for (let authority of authorities) {
       if (auth.hasAuthority(authority)) {
         return <Component />;
-      }
-    }
+      };
+    };
     return <NotAuthorized />;
   };
-
 
   return (
     <main className="container">
@@ -83,11 +78,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/account" element={renderWithAuthority(ModifyAccount, "USER")} />
             <Route path="/404" element={<NotFound />} />
-            <Route path="/501" element={<NotImplemented />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/addtask" element={renderWithAuthority(TaskForm, "USER")} />
             <Route path="/updatetask/:taskID" element={renderWithAuthority(TaskForm, "USER")} />
-           <Route path="/viewtasks" element={renderWithAuthority(TaskList, "USER")} />   
+            <Route path="/viewtasks" element={renderWithAuthority(TaskList, "USER")} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -96,6 +90,10 @@ function App() {
       </AuthContext.Provider>
     </main>
   );
-}
+};
 
 export default App;
+
+// TODO Weather should only render if task is outdoors - fix that
+// TODO is there a way to save index on load
+// TODO Do something about the basic react readme - maybe just delete since the project has one

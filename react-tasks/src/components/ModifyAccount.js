@@ -2,8 +2,11 @@
 
 // TODO add values to form
 
+//TODO needs work - just default place maybe (not presentable)
+
 import LocationForm from "./LocationForm";
 import { useState } from "react";
+
 
 function ModifyAccount() {
 
@@ -41,7 +44,10 @@ function ModifyAccount() {
                     <input type="checkbox" className="form-check-input" id="modifyLocation" name="modifyLocation" onChange={toggleLocation} />
                 </div>
                 <div className={locationView}>
-                    <LocationForm />
+
+                <LocationForm />
+                {/* <LocationForm functions={[task, setTask]} /> */}
+
                 </div>
             </form>
         </>

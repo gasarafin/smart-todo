@@ -3,10 +3,15 @@ package capstone.smarttodo.domain;
 import capstone.smarttodo.data.task.TaskJdbcTemplateRepository;
 import capstone.smarttodo.models.Result;
 import capstone.smarttodo.models.Task;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+
+// TODO This class needs some validation
+
+// TODO It also needs some tests
 
 @Service
 public class TaskService {
@@ -70,6 +75,4 @@ public class TaskService {
 
         return results;
     }
-
-    // TODO Needs validation
 }

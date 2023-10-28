@@ -48,15 +48,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 """;
 
         return jdbcTemplate.query(sql, new TaskMapper(), user);
-
-//        try {
-//            return jdbcTemplate.query(sql, new TaskMapper(), user);
-//        } catch (NullPointerException ex) {
-//            return null;
-//        }
-
     }
-
 
     public Task findByTaskID(int taskID) {
 
@@ -84,13 +76,6 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 .findFirst().orElse(null);
     }
 
-//    public void setInitialPriority(int taskID) {        // TODO needs better return values
-//        final String sql = "insert into task_priority (task_id)"
-//                + "values (?, null);";
-//
-//        jdbcTemplate.update(sql, taskID);
-//    }
-
     public int findUserID(String username) {
 
         final String sql = "select app_user_id from app_user where username = ?;";
@@ -102,24 +87,11 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
         }
     }
 
-//    public void setInitialPriority(int taskID) {        // TODO needs better return values
-//        final String sql = "insert into task_priority (task_id)"
-//                + "values (?, null);";
-//
-//        jdbcTemplate.update(sql, taskID);
-//    }
-
     public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
         final String sql = "replace into task_priority values (?, ?);";
 
         jdbcTemplate.update(sql, taskID, taskPriority);
     }
-
-//    public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
-//        final String sql = "update task_priority set task_priority = ? where task_id = ?;";
-//
-//        jdbcTemplate.update(sql, taskPriority, taskID);
-//    }
 
     @Transactional
     public void updatePriorityList(List<Task> sortedTasks) {
@@ -127,7 +99,6 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
             updatePriority(task.getTaskID(), task.getTaskPriority());
         }
     }
-
 
     @Transactional
     @Override
@@ -150,8 +121,6 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
             ps.setString(9, task.getTaskDetails());
             return ps;
         }, keyHolder);
-
-   //     setInitialPriority(Objects.requireNonNull(keyHolder.getKey()).intValue());
 
         return rowsAffected > 0;
     }
@@ -183,8 +152,6 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 task.getgPlaceLong(),
                 task.getTaskDetails(),
                 task.getTaskID());
-
-        //updatePriority(task.getTaskID(), task.getTaskPriority());
     }
 
     @Override

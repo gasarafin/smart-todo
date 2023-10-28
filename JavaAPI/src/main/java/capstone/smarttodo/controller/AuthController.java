@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
-// Stub - stubbed from fans
 @RestController
 public class AuthController {
 
@@ -34,7 +33,6 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.converter = converter;
         this.appUserService = appUserService;
-
     }
 
     @PostMapping("/authenticate")
@@ -81,12 +79,10 @@ public class AuthController {
 
         Result<AppUser> result = appUserService.create(username, password);
 
-        // unhappy path...
         if (!result.isSuccess()) {
             return new ResponseEntity<>(result.getErrorMessages(), HttpStatus.BAD_REQUEST);
         }
 
-        // happy path...
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", result.getPayload().getAppUserId());
 

@@ -15,10 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneId;
 import java.util.List;
 
-// Stub - stubbed from fans
 @Service
 public class AppUserService implements UserDetailsService {
-
     private final AppUserJdbcTemplateRepository repository;
     private final PasswordEncoder encoder;
 
@@ -102,6 +100,4 @@ public class AppUserService implements UserDetailsService {
 
         return digits > 0 && letters > 0 && others > 0;
     }
-
-    // TODO validate ZoneID
 }
