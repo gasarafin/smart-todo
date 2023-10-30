@@ -3,48 +3,17 @@ create database smart_to_do;
 use smart_to_do;
 
 drop table if exists task_priority;
-drop table if exists location;
 drop table if exists task;
 drop table if exists app_user_role;
 drop table if exists app_role;
 drop table if exists app_user;
-drop table if exists us_time_zones;  -- delete
-drop table if exists app_user_tz;  -- delete
-drop table if exists time_zone_info;
-drop table if exists dst_info;
-
-create table dst_info (
-	dst_id int primary key auto_increment,
-    dst_descriptor varchar(50),
-    dst_start_month int,
-    dst_start_day_week_offset int,
-    dst_start_day_of_week varchar(20),
-    dst_start_time time,
-    dst_end_month int,
-	dst_end_day_week_offset int,
-    dst_end_day_of_week varchar(20),
-    dst_end_time time
-);
-
-create table time_zone_info (
-	zone_id varchar(50) not null primary key,
-	gmt_offset int not null,
-	is_dst bit not null,
-    dst_timing int,
-	constraint fk_dst_info
-        foreign key (dst_timing)
-        references dst_info(dst_id)
-);
 
 create table app_user (
     app_user_id int primary key auto_increment,
     username varchar(50) not null unique,
     password_hash varchar(2048) not null,
     enabled bit not null default(1),
-    zone_id varchar(50),
-	constraint fk_app_user_tz
-        foreign key (zone_id)
-        references time_zone_info(zone_id)
+    zone_id varchar(50)
 );
 
 create table app_role (
@@ -59,10 +28,10 @@ create table app_user_role (
         primary key (app_user_id, app_role_id),
     constraint fk_app_user_role_user_id
         foreign key (app_user_id)
-        references app_user(app_user_id),
+        references app_user (app_user_id),
     constraint fk_app_user_role_role_id
         foreign key (app_role_id)
-        references app_role(app_role_id)
+        references app_role (app_role_id)
 );
 
 create table task (
@@ -72,10 +41,10 @@ create table task (
     due_date datetime,
     is_outdoors bit not null default(1),
     google_places_id varchar(50),
-    task_details text,
-	constraint fk_app_user_id
-		foreign key (app_user_id)
-		references app_user(app_user_id)
+	google_places_name varchar(50),
+    google_places_lat double,
+    google_places_long double,
+    task_details text
 );
 
 create table task_priority (
@@ -85,32 +54,41 @@ create table task_priority (
         primary key (task_id),
 	constraint fk_task_id
 		foreign key (task_id)
-		references task(task_id)
+		references task (task_id)
+		on delete cascade
 );
 
-insert into dst_info (dst_descriptor, dst_start_month, dst_start_day_week_offset, dst_start_day_of_week, dst_start_time, dst_end_month, dst_end_day_week_offset, dst_end_day_of_week, dst_end_time)
-    values
-    ('Standard USA DST', 3, 2, 'Sunday', '02:00:00', 11, 1, 'Sunday', '02:00:00');
+-- Presentation Data
 
-insert into time_zone_info (zone_id, gmt_offset, is_dst, dst_timing)
-	values
-	('America/New_York', -4, 1, 1),
-	('America/Chicago', -5, 1, 1),
-	('America/Denver', -6, 1, 1),
-    ('America/Phoenix', -7, 0, null),
-	('America/Los_Angeles', -7, 1, 1);
-    
 insert into app_role (`name`) values
     ('USER'),
     ('ADMIN');
 
 -- passwords are set to "P@ssw0rd!"
-insert into app_user (username, password_hash, enabled, zone_id)
-    values
-    ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'America/New_York'),
-    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'America/Phoenix');
+insert into app_user (username, password_hash, enabled, zone_id) values
+    ('greg@yourcompany.com', '$2a$10$shGif8A.IeP7DR8x4tE/r.Dtmp5kMcdGJ0O9LpTb3dZypyhyn/Auq', 1, 'America/New_York'),
+    ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'America/Phoenix');
 
-insert into app_user_role
-    values
-    (1, 2),
+insert into app_user_role values
+    (1, 1),
     (2, 1);
+    
+insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_id, google_places_name, google_places_lat, google_places_long, task_details) values
+(1, 'Thank Esin', '2023-10-30 10:00:00', 0, 'ChIJLwPMoJm1RIYRetVp1EtGm10', 'Austin', 30.267153, -97.7430608, 'Because she is awesome'),
+(1, 'Sleep In', '2023-10-31 11:00:00', 0, 'ChIJOwg_06VPwokRYv534QaPC8g', 'New York', 40.7127753, -74.0059728, null),
+(1, 'Do Laundry', null, 0, null, null, null, null, null),
+(1, 'Go Grocery Shopping', null , 0, 'ChIJfZBMj9xH6IkRUJm6EwPnbIc', 'Lidl', 40.869536, -73.0248237, 'Need Eggs, Milk & Ice Cream'),
+(1, 'Thank Corbin', null, 0, 'ChIJ1cRWVORYwokREns-iQmSp8k', 'Genesis10 Headquarters', 40.7601939, -73.9679122, 'Cause he is cool too'),
+(1, 'Get Hired By You', '2023-11-15 08:00:00', 0, null, null, 0, 0, 'Trust me, I am a good fit'),
+(1, 'Thank Brendan', null, 0, 'ChIJ42HBBExAqUYRW6QDdJ-bbMI', 'Dev10', 40.7602213, -73.96810099999999, 'And he is cool as well'),
+(1, 'Go sailing', null, 0, 'ChIJLY7dwpJO6IkRMUDH3H4It5U', 'Great South Bay', 40.687051, -73.111356, null);
+
+insert into task_priority (task_id) values
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8);

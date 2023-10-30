@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-// Draft
 @Configuration
 public class AppConfig {
     @Bean
@@ -18,16 +17,13 @@ public class AppConfig {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
 
-        // TODO set cors mappings
         return new WebMvcConfigurer() {
 
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")                  // ATTN restrict mappings more
+                registry.addMapping("/**")
                         .allowedOrigins("http://localhost:3000")
- //                       .allowedHeaders("accept-charset", "UTF-8")
- //                       .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-                        .allowedMethods("*");
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
     }

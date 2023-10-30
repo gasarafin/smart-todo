@@ -2,8 +2,8 @@
 
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../services/AuthAPI";
 
+import { login } from "../services/AuthAPI";
 import AuthContext from "../contexts/AuthContext";
 import ValidationSummary from "./ValidationSummary";
 
@@ -16,7 +16,7 @@ function Login() {
 
     const { handleLoggedIn } = useContext(AuthContext);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -38,12 +38,12 @@ function Login() {
     };
 
     return (
-        <div>
+        <div className="container my-4">
             <ValidationSummary errors={errors} />
             <form onSubmit={handleSubmit}>
                 <div>
-                    <div className="form-group">
-                        <label htmlFor="label">Username</label>
+                    <div className="form-group my-2">
+                        <label htmlFor="label" className="mb-1">Username</label>
                         <input
                             type="text"
                             className="form-control"
@@ -54,8 +54,8 @@ function Login() {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="label">Password</label>
+                    <div className="form-group my-2">
+                        <label htmlFor="label" className="mb-1">Password</label>
                         <input
                             type="password"
                             className="form-control"
@@ -67,10 +67,10 @@ function Login() {
                         />
                     </div>
                     <div>
-                        <Link to="/" className="btn btn-secondary">
+                        <Link to="/" className="btn btn-secondary my-2 mx-2">
                             Cancel
                         </Link>
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary my-2 mx-2">
                             Log in
                         </button>
                     </div>
@@ -78,6 +78,6 @@ function Login() {
             </form>
         </div>
     );
-}
+};
 
 export default Login;

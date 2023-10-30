@@ -1,11 +1,14 @@
 // src/components/About.js
 
-export default function About() {
+function About() {
     return (
-        <main>
-            <h1>The floof spills the tea.</h1>
-            <p>He says this page hasn't been made yet.</p>
-            <img width={'50%'} src="https://http.dog/418.jpg" className="img-fluid" alt="Not Implemented Yet - Here's a Dog Instead"></img>
-        </main>
+        <div className="container mt-3 py-3">
+        <main role="main" className="inner cover text-center">
+        <h1 className="cover-heading">Smart Tasker</h1>
+        <p className="lead">A smart to do list to keep ypu organized.</p>
+      </main>
+      </div>
     );
-}
+};
+
+export default About;

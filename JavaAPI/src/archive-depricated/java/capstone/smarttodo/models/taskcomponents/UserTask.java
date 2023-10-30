@@ -1,12 +1,7 @@
 package capstone.smarttodo.models.taskcomponents;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
-// Draft
 public class UserTask {
 
     private final int taskID;
@@ -97,15 +92,13 @@ public class UserTask {
     }
 
     public void setDueDate(String dueDate) {
-        if (dueDate != null) {
-            this.dueDate = LocalDateTime.parse(dueDate);
-        }
+        this.dueDate = LocalDateTime.parse(dueDate);
     }
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeFormatter.ISO_ZONED_DATE_TIME)
-//    public void setDueDate(LocalDateTime dueDate) {
-//        this.dueDate = dueDate;
-//    }
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
 
     public boolean isOutdoors() {
         return isOutdoors;

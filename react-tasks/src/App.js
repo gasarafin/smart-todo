@@ -1,5 +1,6 @@
-// Debugging is like being the detective in a crime drama where you are also the murderer, so debug me already murderer.
+// src/App.js
 
+import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState, useCallback } from "react";
 
@@ -8,9 +9,8 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import ModifyAccount from "./components/ModifyAccount";
 import NotFound from "./components/NotFound";
-import NotImplemented from "./components/NotImplemented";
+import NotAuthorized from './components/NotAuthorized';
 import SignUp from "./components/SignUp";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
@@ -39,6 +39,7 @@ function App() {
   useEffect(() => {
     resetUser();
   }, [resetUser]);
+
   const auth = {
     user: user,
     handleLoggedIn(user) {
@@ -56,8 +57,16 @@ function App() {
 
   if (!initialized) {
     return null;
-  }
+  };
 
+  const renderWithAuthority = (Component, ...authorities) => {
+    for (let authority of authorities) {
+      if (auth.hasAuthority(authority)) {
+        return <Component />;
+      };
+    };
+    return <NotAuthorized />;
+  };
 
   return (
     <main className="container">
@@ -67,13 +76,11 @@ function App() {
           <Routes>
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/account" element={<ModifyAccount />} />
             <Route path="/404" element={<NotFound />} />
-            <Route path="/501" element={<NotImplemented />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/addtask" element={<TaskForm />} />
-            <Route path="/updatetask" element={<TaskForm />} />
-            <Route path="/viewtasks" element={<TaskList />} />
+            <Route path="/addtask" element={renderWithAuthority(TaskForm, "USER")} />
+            <Route path="/updatetask/:taskID" element={renderWithAuthority(TaskForm, "USER")} />
+            <Route path="/viewtasks" element={renderWithAuthority(TaskList, "USER")} />
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -82,6 +89,6 @@ function App() {
       </AuthContext.Provider>
     </main>
   );
-}
+};
 
 export default App;

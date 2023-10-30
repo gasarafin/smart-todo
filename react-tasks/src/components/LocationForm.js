@@ -1,14 +1,18 @@
-import { useRef, useEffect, useState } from "react";
+// src/components/LocationForm.js
 
-const LocationForm = () => {
-    const [place, setPlace] = useState({});
+import { useRef, useEffect } from "react";
+
+const LocationForm = props => {
+    const [task, setTask] = props.functions;
+
     const autoCompleteRef = useRef();
     const inputRef = useRef();
+    
     const options = {
         componentRestrictions: {
             country: ["us"]
         },
-        fields: ["name", "address_components", "place_id"],
+        fields: ["name", "geometry", "place_id"],
     };
 
     useEffect(() => {
@@ -18,46 +22,45 @@ const LocationForm = () => {
         );
 
         autoCompleteRef.current.addListener("place_changed", async function () {
+            const placeData = await autoCompleteRef.current.getPlace();
+            setTask((previousTask) => ({
+                ...previousTask, gplaceID: placeData.place_id,
+                gPlaceName: placeData.name,
+                gPlaceLat: placeData.geometry.location.lat(),
+                gPlaceLong: placeData.geometry.location.lng(),
 
-            setPlace(await autoCompleteRef.current.getPlace());
+            }));
         });
-    }, []);
+    });
 
     return (
         <>
-           
-                <div className="form-group">
-                    <label htmlFor="placeName">Find Location</label>
-                    <input className="form-control" id="placeName" name="placeName" ref={inputRef} />
+            <div className="form-group my-2">
+                <label htmlFor="findLocation" className="mb-1">Find Location</label>
+                <input className="form-control" id="findLocation" name="findLocation" ref={inputRef} />
+            </div>
+            <div className="row my-2">
+                <div className="form-group col-6">
+                    <label htmlFor="placeName" className="mb-1">Place</label>
+                    <input className="form-control" id="placeName" name="placeName" value={task.gPlaceName} readOnly />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="address1">Street Address</label>
-                    <input className="form-control" id="address1" name="address1" />
+                <div className="form-group col-6">
+                    <label htmlFor="placeID" className="mb-1">Place ID</label>
+                    <input className="form-control" id="placeID" name="placeID" value={task.gplaceID} readOnly />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="address2">Apartment, unit, suite, or floor #</label>
-                    <input className="form-control" id="address2" name="address2" />
+            </div>
+            <div className="row my-2">
+                <div className="form-group col-6">
+                    <label htmlFor="placeLat" className="mb-1">Latitude</label>
+                    <input className="form-control" id="placeLat" name="placeLat" value={task.gPlaceLat} readOnly />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="city">City</label>
-                    <input className="form-control" id="locality" name="locality" />
+                <div className="form-group col-6">
+                    <label htmlFor="placeLng" className="mb-1">Longitude</label>
+                    <input className="form-control" id="placeLng" name="placeLng" value={task.gPlaceLong} readOnly />
                 </div>
-                <div className="row">
-                    <div className="form-group col-6">
-                        <label htmlFor="state">State/Province</label>
-                        <input className="form-control" id="state" name="state" />
-                    </div>
-                    <div className="form-group col-6">
-                        <label htmlFor="postcode">Postal code</label>
-                        <input className="form-control" id="postcode" name="postcode" />
-                    </div>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="placeID" >Place ID</label>
-                    <input className="form-control" id="placeID" name="placeID" value={place.place_id} />
-                </div>
-           
+            </div>
         </>
     );
 };
+
 export default LocationForm;

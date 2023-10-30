@@ -1,48 +1,43 @@
 // src/components/TaskForm.js
 
-import LocationForm from "./LocationForm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useParams } from 'react-router-dom';
+
 import ModalStructure from "./ModalStructure";
+import LocationForm from "./LocationForm";
+import AuthContext from "../contexts/AuthContext";
 
 function TaskForm() {
 
-    const [locationView, setLocationView] = useState("d-none");
+    const { user: { username } } = useContext(AuthContext)
 
-    const toggleLocation = (ev) => {
-        setLocationView(ev.target.checked ? "" : "d-none");
-    }
+    useEffect(() => {
+        const fetchUserID = async () => {
+            const response = await fetch(`http://localhost:8080/api/user/${username}`);
+            if (response.ok) {
+                const user_id = await response.json()
+                setTask((previousTask) => ({ ...previousTask, userID: user_id }))
+
+            }
+        };
+        fetchUserID();
+
+    }, [username]);
 
     const INITIAL_TASK = {
-        userTask: {
-            taskID: 0,
-            userID: 0,
-            taskName: "",
-            dueDate: null,
-            taskDetails: null,
-            gplaceID: null,
-            outdoors: false
-        },
-        taskPriority: {
-            priorityID: 0
-        }
+        taskID: 0,
+        userID: 0,
+        taskName: "",
+        dueDate: null,
+        taskDetails: null,
+        gplaceID: null,
+        outdoors: false,
+        priorityID: 0,
+        gPlaceName: "",
+        gPlaceLat: 0.0,
+        gPlaceLong: 0.0
+
     };
-
-    const [task, setTask] = useState(INITIAL_TASK);
-    const [userTask, setUserTask] = useState(INITIAL_TASK.userTask);
-    const [taskPriority, setTaskPriority] = useState(INITIAL_TASK.taskPriority);
-
-    //const { taskID } = useParams();
-
-
-
-    const taskID = 1;                                                 // BUG Placeholder
-
-
-    
-    // Start Modal Functionality Block
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const BASE_MODAL = {
         title: "Success",
@@ -50,18 +45,26 @@ function TaskForm() {
         btnName: "Close",
         route: "/viewtasks"
     }
+
+    const [locationView, setLocationView] = useState("d-none");
+    const [task, setTask] = useState(INITIAL_TASK);
     const [modalInfo, setModalInfo] = useState(BASE_MODAL);
-    // End Modal Functionality Block
+    const [show, setShow] = useState(false);
+
+    const { taskID } = useParams();
+
+    const toggleLocation = (ev) => {
+        setLocationView(ev.target.checked ? "" : "d-none");
+    }
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         if (taskID > 0) {
             fetch(`http://localhost:8080/api/idtask/${taskID}`)
                 .then(res => res.json())
-                .then(ev => {
-   //                 setTask(ev);
-                    setUserTask(ev.userTask);
-                    setTaskPriority(ev.taskPriority);
-                })
+                .then(setTask)
                 .catch(console.error);
         }
     }, [taskID]);
@@ -89,19 +92,10 @@ function TaskForm() {
                     return Promise.reject(
                         new Error(`Unexpected status code: ${res.status}`)
                     );
-                }
-            })
-            .then(body => {
-                setModalInfo({
-                    title: "Add Error",
-                    body: (body == null?"This task was not added." :  body[0]),
-                    btnName: "Close",
-                    route: "/viewtasks"
-                });
-                handleShow();
+                };
             })
             .catch(console.error);
-    }
+    };
 
     function update() {
         fetch(`http://localhost:8080/api/${taskID}`, {
@@ -128,33 +122,19 @@ function TaskForm() {
                     return Promise.reject(
                         new Error(`Unexpected status code: ${res.status}`)
                     );
-                }
-            })
-            .then(body => {
-                setModalInfo({
-                    title: "Update Error",
-                    body: (body == null?"This task was not updates." :  body[0]),
-                    btnName: "Close",
-                    route: "/viewtasks"
-                });
-                handleShow();
+                };
             })
             .catch(console.error);
-    }
+    };
 
-    function handleClick(evt) {
-        setTask({userTask, taskPriority});
-    }
-
- function handleChange(evt) {
-
-        setUserTask(previous => {
+    function handleChange(evt) {
+        setTask(previous => {
             const next = { ...previous };
             next[evt.target.name] = evt.target.value;
-            
+
             return next;
         });
-    }
+    };
 
     function handleSubmit(evt) {
         evt.preventDefault();
@@ -163,53 +143,43 @@ function TaskForm() {
             update();
         } else {
             create();
-        }
-    }
+        };
+    };
 
     return (
-        <>
-            {<ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />}
+        <div className="container my-4">
+            <ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />
+
+            <h2 className="text-center">Add a Task</h2>
 
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="taskName">Task Name</label>
-                    <input type="text" className="form-control" id="taskName" name="taskName" onChange={handleChange} value={userTask.taskName} />
+                <div className="form-group my-2">
+                    <label htmlFor="taskName" className="mb-1">Task Name</label>
+                    <input type="text" className="form-control" id="taskName" name="taskName" onChange={handleChange} value={task.taskName} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="dueDate">Due Date</label>
-                    <input type="datetime-local" className="form-control" id="dueDate" name="dueDate" onChange={handleChange} value={userTask.dueDate} />
+                <div className="form-group my-2">
+                    <label htmlFor="dueDate" className="mb-1">Due Date</label>
+                    <input type="datetime-local" className="form-control" id="dueDate" name="dueDate" onChange={handleChange} value={task.dueDate === null ? "" : task.dueDate} />
                 </div>
-                <div className="form-check">
-                    <label htmlFor="isOutdoors">Is this an outdoor task?</label>
-                    <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={userTask.isOutdoors} />
+                <div className="form-check my-2">
+                    <label htmlFor="isOutdoors" className="mb-1">Is this an outdoor task?</label>
+                    <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={task.isOutdoors} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="taskDetails">Task Details</label>
-                    <input type="text" className="form-control" id="taskDetails" name="taskDetails" onChange={handleChange} value={userTask.taskDetails} />
+                <div className="form-group my-2">
+                    <label htmlFor="taskDetails" className="mb-1">Task Details</label>
+                    <input type="text" className="form-control" id="taskDetails" name="taskDetails" onChange={handleChange} value={task.taskDetails === null ? "" : task.taskDetails} />
                 </div>
-                <div className="form-check">
-                    <label htmlFor="haveLocation">Do you want to include a location?</label>
+                <div className="form-check my-2">
+                    <label htmlFor="haveLocation" className="mb-1">Do you want to include a location?</label>
                     <input type="checkbox" className="form-check-input" id="haveLocation" name="haveLocation" onChange={toggleLocation} />
                 </div>
                 <div className={locationView}>
-                    <LocationForm />
+                    <LocationForm functions={[task, setTask]} />
                 </div>
-                {/*
-                <div className="row">
-                    <div className="form-group col-6">
-                        <label for="locationSearch">Location Search</label>
-                        <input className="form-control" id="locationSearch" name="locationSearch" />
-                    </div>
-                    <div className="form-group col-6">
-                        <label for="placeID">Place ID</label>
-                        <input className="form-control" id="placeID" name="placeID" />
-                    </div>
-                </div>
-*/}
-                {/* BUG There is gonna be an issue here if enter is pressed instead of this button clicked. (because ev handling) */}
-                <button onClick={handleClick}  type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary my-2">Submit</button>
             </form>
-        </>
+        </div>
     );
 };
+
 export default TaskForm;

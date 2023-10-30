@@ -1,67 +1,56 @@
 // src/components/TaskList.js
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+
 import Task from "./Task";
+import AuthContext from "../contexts/AuthContext";
 
 function TaskList() {
     const [tasks, setTasks] = useState([]);
+    const [renderTasks, setRenderTasks] = useState('initial');
 
-
-
-    const userName = 'john@smith.com'                                       // BUG Placeholder for JWT Token
-
-
+    const { user: { username } } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchTasks = async () => {
-            const response = await fetch(`http://localhost:8080/api/usertask/${userName}`);
+            const response = await fetch(`http://localhost:8080/api/usertask/${username}`);
+
             if (response.ok) {
-                setTasks(await response.json());
+                const taskResponse = await response.json()
+                setTasks(taskResponse);
+                taskResponse.length === 0 ? setRenderTasks('fetchEmpty') : setRenderTasks('fetchTasks');
             } else {
-                setTasks([]);
-            }
+                setRenderTasks('fetchError')
+            };
         };
         fetchTasks();
 
-    }, []);
+    }, [username]);
 
-    function updatePriority() {
-        fetch(`http://localhost:8080/api/priority/list`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(tasks),
-        })
-            .then(res => {
-                if (res.ok) {
-                } else if (res.status === 400) {
-                    return res.json()
-                } else if (res.status === 404) {
-                } else {
-                    return Promise.reject(
-                        new Error(`Unexpected status code: ${res.status}`)
-                    );
-                }
-            })
-            .catch(console.error);
-    }
-
-    function handleSubmit() {
-console.log(tasks)
-        updatePriority();
-
-    }
 
     return (
-        <>
-            <button onClick={handleSubmit} type="submit" class="btn btn-primary">Save List Order</button>
-            {tasks.length === 0 ?
-                <div className="alert alert-warning py-4">
+        <div className="container my-4">
+            <h2 className="text-center mb-2">Task Lists</h2>
+            {renderTasks === 'initial'
+                ? <div className="alert alert-info py-4">
+                    Fetching your tasks - Please wait.
+                  </div>
+            : renderTasks === 'fetchEmpty'
+                ? <div className="alert alert-warning py-4">
                     You have not added any tasks.
-                </div>
-                : <Task functions={[tasks, setTasks]} />}
-        </>
+                  </div>
+            : renderTasks === 'fetchTasks'
+                ? <Task functions={[tasks, setTasks]} />
+            : renderTasks === 'fetchError'
+                ? <div className="alert alert-danger py-4">
+                    Fetch failed.
+                  </div>
+                : <div className="alert alert-danger py-4">
+                    Error.
+                  </div>
+            }
+        </div>
     );
 };
+
 export default TaskList;

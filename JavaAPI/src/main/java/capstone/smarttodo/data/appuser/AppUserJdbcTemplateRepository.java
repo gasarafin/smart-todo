@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
-// Draft
 @Repository
 public class AppUserJdbcTemplateRepository implements AppUserRepository {
 
@@ -37,7 +36,6 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
                 .findFirst().orElse(null);
     }
 
-
     @Transactional
     @Override
     public AppUser create(AppUser user) {
@@ -58,7 +56,6 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         }
 
         user.setAppUserId(keyHolder.getKey().intValue());
-
         updateRoles(user);
 
         return user;
@@ -104,14 +101,4 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
                 + "where au.username = ?";
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), username);
     }
-
-    public boolean delete(int userID) {
-        // Notes    For this to work, I need to do the following:
-        //          1. Delete all tasks_priority data for user
-        //          2. Delete all task data for user
-        //          3. Delete app_user
-        //          4. Force user logout on front end (because JWT token is no longer valid)
-        return true;
-    }
 }
-

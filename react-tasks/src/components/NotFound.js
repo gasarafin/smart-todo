@@ -1,10 +1,14 @@
 // src/components/NotFound.js
 
-export default function NotFound() {
+function NotFound() {
     return (
-        <main>
-            <img width={'50%'} src="https://http.dog/404.jpg" className="img-fluid" alt="404-Not Found"></img>
-            {/*<img src={process.env.PUBLIC_URL + '/images/404.jpg'} className="img-fluid" alt="404-Not Found"></img>*/}
-        </main>
+        <div className="container mt-3 py-3">
+            <main role="main" className="inner cover text-center">
+                <h1 className="cover-heading">404 - Page Not Found</h1>
+                <h4 className="lead">With so much to do, why are you on a page with nothing. Your tasks await.</h4>
+            </main>
+        </div>
     );
-}
+};
+
+export default NotFound;

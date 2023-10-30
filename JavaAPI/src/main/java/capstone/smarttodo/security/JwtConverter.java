@@ -14,13 +14,10 @@ import java.util.stream.Collectors;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
-// Stub - stubbed from fans
 @Component
 public class JwtConverter {
 
-    // 1. Signing key
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    // 2. "Configurable" constants
     private final String ISSUER = "smart-to-do";
     private final int EXPIRATION_MINUTES = 15;
     private final int EXPIRATION_MILLIS = EXPIRATION_MINUTES * 60 * 1000;
@@ -31,7 +28,6 @@ public class JwtConverter {
                 .map(i -> i.getAuthority())
                 .collect(Collectors.joining(","));
 
-        // 3. Use JJWT classes to build a token.
         return Jwts.builder()
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
@@ -48,7 +44,6 @@ public class JwtConverter {
         }
 
         try {
-            // 4. Use JJWT classes to read a token.
             Jws<Claims> jws = Jwts.parserBuilder()
                     .requireIssuer(ISSUER)
                     .setSigningKey(key)
@@ -65,11 +60,9 @@ public class JwtConverter {
             return new User(username, username, roles);
 
         } catch (JwtException e) {
-            // 5. JWT failures are modeled as exceptions.
             System.out.println(e);
         }
 
         return null;
     }
 }
-

@@ -1,4 +1,4 @@
-/** JDstub
+/**
  * External Class
  * https://github.com/AustinC/UnitedStates
  */

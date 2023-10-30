@@ -12,12 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneId;
 import java.util.List;
 
-// Stub - stubbed from fans
 @Service
 public class AppUserService implements UserDetailsService {
-
     private final AppUserJdbcTemplateRepository repository;
     private final PasswordEncoder encoder;
 
@@ -38,7 +37,7 @@ public class AppUserService implements UserDetailsService {
         return appUser;
     }
 
-    public Result<AppUser> create(String username, String password, String userTZ) {
+    public Result<AppUser> create(String username, String password) {
         Result<AppUser> result = validate(username, password);
         if (!result.isSuccess()) {
             return result;
@@ -46,7 +45,7 @@ public class AppUserService implements UserDetailsService {
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, true, userTZ, List.of("USER"));
+        AppUser appUser = new AppUser(0, username, password, true, "UTC", List.of("USER"));
 
         try {
             appUser = repository.create(appUser);
@@ -54,7 +53,6 @@ public class AppUserService implements UserDetailsService {
         } catch (DuplicateKeyException e) {
             result.addErrorMessage("The provided username already exists", HttpStatus.BAD_REQUEST);
         }
-
         return result;
     }
 
@@ -101,6 +99,4 @@ public class AppUserService implements UserDetailsService {
 
         return digits > 0 && letters > 0 && others > 0;
     }
-
-    // TODO validate ZoneID
 }

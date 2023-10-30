@@ -1,7 +1,5 @@
 // src/components/ValidationSummary.js
 
-// TODO - clean up - from messy source
-
 function ValidationSummary({errors = []}){
     if(!errors || errors.length === 0){
         return null;
@@ -16,6 +14,6 @@ function ValidationSummary({errors = []}){
             </ul>
         </div>
     );
-}
+};
 
 export default ValidationSummary;
