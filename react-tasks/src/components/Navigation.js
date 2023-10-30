@@ -16,7 +16,7 @@ function Navigation() {
     const { logout } = useContext(AuthContext);
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar expand="md" className="bg-body-tertiary rounded-bottom-4">
             <Container>
                 <Navbar.Brand as={Link} to="/">
                     <img
@@ -33,10 +33,9 @@ function Navigation() {
                         <Nav.Link as={Link} to="/viewtasks">View Tasks</Nav.Link>
                         <NavDropdown title="Accounts" id="basic-nav-dropdown">
                             <NavDropdown.Item as={Link} to="/login">Log In</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/signup">Sign Up</NavDropdown.Item>
                             <NavDropdown.Item as={Link} onClick={logout} to="/">Log Out</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} to="/account">Modify Your Account</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/signup">Sign Up</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

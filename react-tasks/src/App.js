@@ -1,5 +1,6 @@
 // src/App.js
 
+import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState, useCallback } from "react";
 
@@ -8,7 +9,6 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import ModifyAccount from "./components/ModifyAccount";
 import NotFound from "./components/NotFound";
 import NotAuthorized from './components/NotAuthorized';
 import SignUp from "./components/SignUp";
@@ -76,7 +76,6 @@ function App() {
           <Routes>
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/account" element={renderWithAuthority(ModifyAccount, "USER")} />
             <Route path="/404" element={<NotFound />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/addtask" element={renderWithAuthority(TaskForm, "USER")} />
@@ -93,7 +92,3 @@ function App() {
 };
 
 export default App;
-
-// TODO Weather should only render if task is outdoors - fix that
-// TODO is there a way to save index on load
-// TODO Do something about the basic react readme - maybe just delete since the project has one

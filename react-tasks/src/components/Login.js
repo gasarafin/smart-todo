@@ -38,12 +38,12 @@ function Login() {
     };
 
     return (
-        <div>
+        <div className="container my-4">
             <ValidationSummary errors={errors} />
             <form onSubmit={handleSubmit}>
                 <div>
-                    <div className="form-group">
-                        <label htmlFor="label">Username</label>
+                    <div className="form-group my-2">
+                        <label htmlFor="label" className="mb-1">Username</label>
                         <input
                             type="text"
                             className="form-control"
@@ -54,8 +54,8 @@ function Login() {
                             required
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="label">Password</label>
+                    <div className="form-group my-2">
+                        <label htmlFor="label" className="mb-1">Password</label>
                         <input
                             type="password"
                             className="form-control"
@@ -67,10 +67,10 @@ function Login() {
                         />
                     </div>
                     <div>
-                        <Link to="/" className="btn btn-secondary">
+                        <Link to="/" className="btn btn-secondary my-2 mx-2">
                             Cancel
                         </Link>
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary my-2 mx-2">
                             Log in
                         </button>
                     </div>

@@ -10,7 +10,7 @@ public interface TaskRepository {
 
     boolean create(Task task);
 
-    void update(Task task);
+    boolean update(Task task);
 
     boolean delete(int taskID);
 }

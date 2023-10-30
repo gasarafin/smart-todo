@@ -29,10 +29,11 @@ function TaskList() {
 
 
     return (
-        <>
+        <div className="container my-4">
+            <h2 className="text-center mb-2">Task Lists</h2>
             {renderTasks === 'initial'
                 ? <div className="alert alert-info py-4">
-                    Awaiting a promise
+                    Fetching your tasks - Please wait.
                   </div>
             : renderTasks === 'fetchEmpty'
                 ? <div className="alert alert-warning py-4">
@@ -48,7 +49,7 @@ function TaskList() {
                     Error.
                   </div>
             }
-        </>
+        </div>
     );
 };
 

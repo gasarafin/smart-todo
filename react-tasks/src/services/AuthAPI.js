@@ -23,26 +23,6 @@ export async function login(credentials) {
   };
 };
 
-export async function register(credentials) {
-  const init = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify(credentials)
-  };
-
-  const response = await fetch(url + '/create_account', init);
-
-  if (response.status === 400) {
-    const result = response.json();
-    return { errors: result.messages };
-  } else if (response.status !== 201) {
-    return Promise.reject("Unexpected error, oops.");
-  };
-};
-
 export async function refreshToken() {
   const jwtToken = localStorage.getItem('jwt_token');
   if (!jwtToken) {

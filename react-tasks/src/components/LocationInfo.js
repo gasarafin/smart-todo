@@ -1,106 +1,73 @@
 // src/components/LocationInfo.js
 
-
-// src/components/LocationInfo.js
-
-//BUG CORS Origin error - but works in VS code as an http request
-
-import { useEffect, useState, useRef} from "react";
+import { useEffect, useState, useRef } from 'react';
 
 function LocationInfo({ gplaceID }) {
     const [locationInfo, setLocationInfo] = useState([]);
+    const mapRef = useRef();
 
-    const locSearch = useRef();
-    
     useEffect(() => {
-        const options = {
-            placeID: {gplaceID},
-            fields: ["weekday_text"],
+        const request = {
+            placeId: gplaceID,
+            fields: ['opening_hours'],
         };
 
-        locSearch.current = new window.google.maps.places.PlacesService (
-            options
-        );
+        var map;
 
-        const fetchLocation = async () => {
+        function initialize() {
+            map = new window.google.maps.Map(mapRef.current, {
+                center: { lat: -33.8666, lng: 151.1958 },
+                zoom: 15,
+            });
+        }
+        initialize();
 
-            const placeData = await locSearch.current.getDetails();
-            setLocationInfo((previousLoc) => ({
-                ...previousLoc, openingPeriod: placeData.weekday_text
-            }))
-        };
-            fetchLocation();
+        var service = new window.google.maps.places.PlacesService(map);
 
+        service.getDetails(request, (place, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                try {
+                    setLocationInfo(place.opening_hours.weekday_text)
+                } catch {
+                    setLocationInfo([])
+                }
+            }
+        });
     }, [gplaceID]);
 
-
     return (
-        <>
-            {/* TODO This isn't in a final usable form - probably needs a table */}
-            <p>Location Hours: {locationInfo}</p>
-        </>
+        <div> 
+            <table className="table">
+                <thead>
+                <tr>
+                    <th scope="col">Opening Hours</th>
+                </tr>
+                <tr>
+                    <td>{locationInfo[0]}</td>
+                </tr>
+                <tr>
+                    <td>{locationInfo[1]}</td>
+                </tr>
+                <tr>
+                    <td>{locationInfo[2]}</td>
+                </tr>
+                <tr>
+                    <td>{locationInfo[3]}</td>
+                </tr>
+                <tr>
+                    <td>{locationInfo[4]}</td>
+                </tr>
+                <tr>
+                    <td>{locationInfo[5]}</td>
+                </tr>
+                <tr>
+                    <td>{locationInfo[6]}</td>
+                </tr>
+                </thead>
+            </table>
+            <div id='map' ref={mapRef}></div>
+        </div>
     );
-};
+}
 
 export default LocationInfo;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useEffect, useState } from "react";
-
-// function LocationInfo({ gplaceID }) {
-//     const [locationInfo, setLocationInfo] = useState([]);
-
-//     useEffect(() => {
-//         const fetchLocation = async () => {
-//             const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?&place_id=${gplaceID}&fields=opening_hours&key=${process.env.REACT_APP_GPLACES_API_KEY}`, {
-//                 method: 'GET'
-//               });
-
-//             if (response.ok) {
-//                 const locationData = await response.json();
-//                 console.log(locationData)
-//                 setLocationInfo(locationData);
-//             } else {
-//                 // TODO Exception Handling?
-//             };
-//         };
-//         fetchLocation();
-
-//     }, [gplaceID]);
-
-    
-
-//     return (
-//         <>
-//         {locationInfo === null ? "No Location Info" : `Location Hours: ${locationInfo}`}
-//         {locationInfo}
-//         <p>{`Is location empty ${locationInfo.values}`}</p>
-//         </>
-//     );
-// };
-
-// export default LocationInfo;

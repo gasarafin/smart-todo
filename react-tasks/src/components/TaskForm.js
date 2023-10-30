@@ -18,8 +18,6 @@ function TaskForm() {
                 const user_id = await response.json()
                 setTask((previousTask) => ({ ...previousTask, userID: user_id }))
 
-            } else {
-                // TODO ex handling?
             }
         };
         fetchUserID();
@@ -149,36 +147,38 @@ function TaskForm() {
     };
 
     return (
-        <>
+        <div className="container my-4">
             <ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />
 
+            <h2 className="text-center">Add a Task</h2>
+
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="taskName">Task Name</label>
+                <div className="form-group my-2">
+                    <label htmlFor="taskName" className="mb-1">Task Name</label>
                     <input type="text" className="form-control" id="taskName" name="taskName" onChange={handleChange} value={task.taskName} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="dueDate">Due Date</label>
+                <div className="form-group my-2">
+                    <label htmlFor="dueDate" className="mb-1">Due Date</label>
                     <input type="datetime-local" className="form-control" id="dueDate" name="dueDate" onChange={handleChange} value={task.dueDate === null ? "" : task.dueDate} />
                 </div>
-                <div className="form-check">
-                    <label htmlFor="isOutdoors">Is this an outdoor task?</label>
+                <div className="form-check my-2">
+                    <label htmlFor="isOutdoors" className="mb-1">Is this an outdoor task?</label>
                     <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={task.isOutdoors} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="taskDetails">Task Details</label>
+                <div className="form-group my-2">
+                    <label htmlFor="taskDetails" className="mb-1">Task Details</label>
                     <input type="text" className="form-control" id="taskDetails" name="taskDetails" onChange={handleChange} value={task.taskDetails === null ? "" : task.taskDetails} />
                 </div>
-                <div className="form-check">
-                    <label htmlFor="haveLocation">Do you want to include a location?</label>
+                <div className="form-check my-2">
+                    <label htmlFor="haveLocation" className="mb-1">Do you want to include a location?</label>
                     <input type="checkbox" className="form-check-input" id="haveLocation" name="haveLocation" onChange={toggleLocation} />
                 </div>
                 <div className={locationView}>
                     <LocationForm functions={[task, setTask]} />
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary my-2">Submit</button>
             </form>
-        </>
+        </div>
     );
 };
 

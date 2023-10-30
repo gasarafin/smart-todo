@@ -101,14 +101,4 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
                 + "where au.username = ?";
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), username);
     }
-
-    // ATTN make this disappear
-    public boolean delete(int userID) {
-        // Notes    For this to work, I need to do the following:
-        //          1. Delete all tasks_priority data for user
-        //          2. Delete all task data for user
-        //          3. Delete app_user
-        //          4. Force user logout on front end (because JWT token is no longer valid)
-        return true;
-    }
 }

@@ -2,7 +2,6 @@ package capstone.smarttodo.models.taskcomponents;
 
 import java.time.LocalDateTime;
 
-// Draft
 public class UserTask {
 
     private final int taskID;

@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.hero{
+  display: flex;
+  height: '100vh';
+  background: linear-gradient(90deg, #000000, #cd0d1d);
+}

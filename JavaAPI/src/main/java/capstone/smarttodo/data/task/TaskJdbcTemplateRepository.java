@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class TaskJdbcTemplateRepository implements TaskRepository {
@@ -23,9 +21,8 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
     @Override
-    public List<Task> findByUser(String user) {
+    public List<Task> findByUser(String username) {
 
         final String sql = """
                 select
@@ -47,7 +44,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 order by tp.task_priority asc;
                 """;
 
-        return jdbcTemplate.query(sql, new TaskMapper(), user);
+        return jdbcTemplate.query(sql, new TaskMapper(), username);
     }
 
     public Task findByTaskID(int taskID) {
@@ -80,29 +77,30 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
 
         final String sql = "select app_user_id from app_user where username = ?;";
 
-        try {
-            return jdbcTemplate.queryForObject(sql, Integer.class, username);
-        } catch (NullPointerException n) {
-            return 0;  //ATTN - I should probably handle this exception better.
-        }
+
+        return jdbcTemplate.queryForObject(sql, Integer.class, username);
     }
 
-    public void updatePriority(int taskID, int taskPriority) {        // TODO needs better return values
+    public boolean updatePriority(int taskID, int taskPriority) {
         final String sql = "replace into task_priority values (?, ?);";
 
-        jdbcTemplate.update(sql, taskID, taskPriority);
+        return jdbcTemplate.update(sql, taskID, taskPriority)  > 0;
     }
 
     @Transactional
-    public void updatePriorityList(List<Task> sortedTasks) {
+    public boolean updatePriorityList(List<Task> sortedTasks) {
+
         for (Task task : sortedTasks) {
-            updatePriority(task.getTaskID(), task.getTaskPriority());
+            if (!updatePriority(task.getTaskID(), task.getTaskPriority())) {
+                return false;
+            }
         }
+        return true;
     }
 
     @Transactional
     @Override
-    public boolean create(Task task) {        // TODO needs better return values
+    public boolean create(Task task) {
 
         final String sql = "insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_id, google_places_name, google_places_lat, google_places_long, task_details)"
                 + "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -125,9 +123,8 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
         return rowsAffected > 0;
     }
 
-    @Transactional
     @Override
-    public void update(Task task) {         // TODO needs better return values
+    public boolean update(Task task) {
 
         final String sql = """
                 update task set
@@ -142,7 +139,7 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 where task_id = ?;
                 """;
 
-        jdbcTemplate.update(sql,
+return jdbcTemplate.update(sql,
                 task.getTaskName(),
                 task.getDueDate() == null ? null : Timestamp.valueOf(task.getDueDate()),
                 task.isOutdoors(),
@@ -151,17 +148,13 @@ public class TaskJdbcTemplateRepository implements TaskRepository {
                 task.getgPlaceLat(),
                 task.getgPlaceLong(),
                 task.getTaskDetails(),
-                task.getTaskID());
+                task.getTaskID()) > 0;
     }
 
+    @Transactional
     @Override
     public boolean delete(int taskID) {
-        final String sql = """
-                delete task, task_priority
-                from task
-                left join task_priority on task.task_id=task_priority.task_id
-                where task_priority.task_id = ?;
-                """;
+        final String sql = "delete from task where task_id = ?;";
 
         return jdbcTemplate.update(sql, taskID) > 0;
     }

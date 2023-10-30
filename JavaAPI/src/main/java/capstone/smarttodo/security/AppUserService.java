@@ -53,7 +53,6 @@ public class AppUserService implements UserDetailsService {
         } catch (DuplicateKeyException e) {
             result.addErrorMessage("The provided username already exists", HttpStatus.BAD_REQUEST);
         }
-
         return result;
     }
 

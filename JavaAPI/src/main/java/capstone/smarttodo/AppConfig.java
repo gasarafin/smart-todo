@@ -17,16 +17,13 @@ public class AppConfig {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
 
-        // ATTN restrict cors mappings and methods
         return new WebMvcConfigurer() {
 
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:3000")
-//                        .allowedHeaders("accept-charset", "UTF-8")
-//                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-                        .allowedMethods("*");
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
     }
