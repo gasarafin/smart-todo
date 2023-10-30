@@ -78,6 +78,7 @@ function SignUp() {
                                 className="form-control"
                                 id="username"
                                 name="username"
+                                autocomplete="new-username"
                                 value={credentials.username}
                                 onChange={handleChange}
                                 required
@@ -90,6 +91,7 @@ function SignUp() {
                                 className="form-control"
                                 id="password"
                                 name="password"
+                                autocomplete="new-password"
                                 value={credentials.password}
                                 onChange={handleChange}
                                 required
