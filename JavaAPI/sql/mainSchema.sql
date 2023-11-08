@@ -79,7 +79,7 @@ insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_i
 (1, 'Do Laundry', null, 0, null, null, null, null, null),
 (1, 'Go Grocery Shopping', null , 0, 'ChIJfZBMj9xH6IkRUJm6EwPnbIc', 'Lidl', 40.869536, -73.0248237, 'Need Eggs, Milk & Ice Cream'),
 (1, 'Thank Corbin', null, 0, 'ChIJ1cRWVORYwokREns-iQmSp8k', 'Genesis10 Headquarters', 40.7601939, -73.9679122, 'Cause he is cool too'),
-(1, 'Get Hired By You', '2023-11-15 08:00:00', 0, null, null, 0, 0, 'Trust me, I am a good fit'),
+(1, 'Get Hired By You', '2023-11-15 08:00:00', 0, null, null, null, null, 'Trust me, I am a good fit'),
 (1, 'Thank Brendan', null, 0, 'ChIJ42HBBExAqUYRW6QDdJ-bbMI', 'Dev10', 40.7602213, -73.96810099999999, 'And he is cool as well'),
 (1, 'Go sailing', null, 0, 'ChIJLY7dwpJO6IkRMUDH3H4It5U', 'Great South Bay', 40.687051, -73.111356, null);
 
