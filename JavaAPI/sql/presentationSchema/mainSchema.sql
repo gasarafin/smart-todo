@@ -74,14 +74,14 @@ insert into app_user_role values
     (2, 1);
     
 insert into task (app_user_id, task_name, due_date, is_outdoors, google_places_id, google_places_name, google_places_lat, google_places_long, task_details) values
-(1, 'Update Resume', '2023-11-10 17:00:00', 0, null, null, null, null, 'Update with Dev10'),
-(1, 'Mow Lawn', '2023-11-15 23:59:00', 1, 'ChIJ4zGFAZpYwokRGUGph3Mf37k', 'Central Park', 40.7825547, -73.9655834, null),
+(1, 'Thank Esin', '2023-10-30 10:00:00', 0, 'ChIJLwPMoJm1RIYRetVp1EtGm10', 'Austin', 30.267153, -97.7430608, 'Because she is awesome'),
+(1, 'Sleep In', '2023-10-31 11:00:00', 0, 'ChIJOwg_06VPwokRYv534QaPC8g', 'New York', 40.7127753, -74.0059728, null),
 (1, 'Do Laundry', null, 0, null, null, null, null, null),
-(1, 'Go Grocery Shopping', null , 0, 'ChIJ1_bNGJ1YwokR9OFA1FuxTJQ', 'Trader Joe\'s', 40.7908176, -73.9693698, 'Need Eggs, Milk & Butter'),
-(1, 'Eye Exam', '2023-11-24 13:45:00', 0, 'ChIJvWnc5iZawokRhSZKBnqgUNg', 'Eye Solutions', 40.7149221, -73.9989713, 'Bring old glasses'),
-(1, 'Get Hired By You', '2023-11-15 08:00:00', 0, 'ChIJCzYy5IS16lQRQrfeQ5K5Oxw', 'United States', 37.09024, -95.712891, 'Trust me, I am a good fit'),
-(1, 'Finish GitHub Pages', '2023-11-10 17:00:00', 0, null, null, null, null, 'Finish SmartTasker project page, profile page can be done later'),
-(1, 'Go sailing', '2023-11-18 15:30:00', 1, 'ChIJnc69uVb1wokRfwbk0L8ZrXw', 'Flushing Point Marina', 40.779712, -73.848992, null);
+(1, 'Go Grocery Shopping', null , 0, 'ChIJfZBMj9xH6IkRUJm6EwPnbIc', 'Lidl', 40.869536, -73.0248237, 'Need Eggs, Milk & Ice Cream'),
+(1, 'Thank Corbin', null, 0, 'ChIJ1cRWVORYwokREns-iQmSp8k', 'Genesis10 Headquarters', 40.7601939, -73.9679122, 'Cause he is cool too'),
+(1, 'Get Hired By You', '2023-11-15 08:00:00', 0, null, null, null, null, 'Trust me, I am a good fit'),
+(1, 'Thank Brendan', null, 0, 'ChIJ42HBBExAqUYRW6QDdJ-bbMI', 'Dev10', 40.7602213, -73.96810099999999, 'And he is cool as well'),
+(1, 'Go sailing', null, 0, 'ChIJLY7dwpJO6IkRMUDH3H4It5U', 'Great South Bay', 40.687051, -73.111356, null);
 
 insert into task_priority (task_id) values
 (1),
