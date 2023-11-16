@@ -46,7 +46,7 @@ const LocationForm = props => {
                 </div>
                 <div className="form-group col-6">
                     <label htmlFor="placeID" className="mb-1">Place ID</label>
-                    <input className="form-control" id="placeID" name="placeID" value={task.gplaceID} readOnly />
+                    <input className="form-control" id="placeID" name="placeID" value={task.gplaceID===null ? "" : task.gplaceID} readOnly />
                 </div>
             </div>
             <div className="row my-2">

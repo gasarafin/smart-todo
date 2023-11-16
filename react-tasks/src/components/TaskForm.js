@@ -1,7 +1,7 @@
 // src/components/TaskForm.js
 
 import { useState, useEffect, useContext } from "react";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import ModalStructure from "./ModalStructure";
 import LocationForm from "./LocationForm";
@@ -10,6 +10,8 @@ import AuthContext from "../contexts/AuthContext";
 function TaskForm() {
 
     const { user: { username } } = useContext(AuthContext)
+
+    const { taskID } = useParams();
 
     useEffect(() => {
         const fetchUserID = async () => {
@@ -22,7 +24,7 @@ function TaskForm() {
         };
         fetchUserID();
 
-    }, [username]);
+    }, [username, taskID]);
 
     const INITIAL_TASK = {
         taskID: 0,
@@ -51,14 +53,13 @@ function TaskForm() {
     const [modalInfo, setModalInfo] = useState(BASE_MODAL);
     const [show, setShow] = useState(false);
 
-    const { taskID } = useParams();
-
     const toggleLocation = (ev) => {
         setLocationView(ev.target.checked ? "" : "d-none");
     }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleReset = () => setTask(INITIAL_TASK);
 
     useEffect(() => {
         if (taskID > 0) {
@@ -66,6 +67,8 @@ function TaskForm() {
                 .then(res => res.json())
                 .then(setTask)
                 .catch(console.error);
+        } else {
+            handleReset();
         }
     }, [taskID]);
 
@@ -146,11 +149,13 @@ function TaskForm() {
         };
     };
 
+
+
     return (
         <div className="container my-4">
             <ModalStructure show={show} handleClose={() => handleClose()} modalInfo={modalInfo} />
 
-            <h2 className="text-center">Add a Task</h2>
+            <h2 className="text-center">{taskID > 0 ? 'Edit Task' : 'Add Task'}</h2>
 
             <form onSubmit={handleSubmit}>
                 <div className="form-group my-2">
@@ -163,7 +168,7 @@ function TaskForm() {
                 </div>
                 <div className="form-check my-2">
                     <label htmlFor="isOutdoors" className="mb-1">Is this an outdoor task?</label>
-                    <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={task.isOutdoors} />
+                    <input type="checkbox" className="form-check-input" id="isOutdoors" name="isOutdoors" onChange={handleChange} value={task.outdoors} />
                 </div>
                 <div className="form-group my-2">
                     <label htmlFor="taskDetails" className="mb-1">Task Details</label>
@@ -176,7 +181,12 @@ function TaskForm() {
                 <div className={locationView}>
                     <LocationForm functions={[task, setTask]} />
                 </div>
-                <button type="submit" className="btn btn-primary my-2">Submit</button>
+                <div id="buttonPanel">
+                    <button type="submit" className="btn btn-primary my-2 mx-2">Submit</button>
+                    <Link className="btn btn-secondary my-2 mx-2" to='/viewtasks'>
+                        Cancel
+                    </Link>
+                </div>
             </form>
         </div>
     );
